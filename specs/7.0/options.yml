@@ -1,0 +1,26 @@
+options:
+  type: object
+  properties:
+    reduceOptions:
+      type: object
+      properties:
+        values:
+          type: boolean
+          default: false
+        calcs:
+          type: array
+          items:
+            type: string
+          default:
+            - mean
+        fields:
+          type: string
+    orientation:
+      type: string
+      default: auto
+    showThresholdLabels:
+      type: boolean
+      default: false
+    showThresholdMarkers:
+      type: boolean
+      default: true

@@ -1,0 +1,28 @@
+StatPanel:
+  type: object
+  required:
+    - title
+  properties:
+    type:
+      type: string
+      default: 'stat'
+    title:
+      type: string
+    description:
+      type: string
+    datasource:
+      type: string
+      default: default
+    transparent:
+      type: boolean
+      default: false
+    fieldConfig:
+      $ref: 'fieldConfig.yml#/fieldConfig'
+    options:
+      $ref: 'options.yml#/options'
+    links:
+      type: array
+      items:
+        $ref: 'link.yml#/link'
+    gridPos:
+      $ref: 'gridPos.yml#/gridPos'

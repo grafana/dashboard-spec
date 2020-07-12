@@ -1,0 +1,88 @@
+fieldConfig:
+  type: object
+  properties:
+    defaults:
+      $ref: '#/fieldConfigDefaults'
+    overrides:
+      type: array
+      items:
+        $ref: '#/fieldConfigOverrides'
+
+fieldConfigDefaults:
+  type: object
+  properties:
+    unit:
+      type: string
+      default: short
+    min:
+      type: integer
+      default: 0
+    max:
+      type: integer
+      default: 0
+    thresholds:
+      type: array
+      items:
+        $ref: '#/fieldConfigThreshold'
+    mappings:
+      type: array
+      items:
+        $ref: '#/fieldConfigMapping'
+    links:
+      type: array
+      items:
+        $ref: 'link.yml#/link'
+
+fieldConfigThreshold:
+  type: object
+  properties:
+    mode:
+      type: string
+      default: absolute
+    steps:
+      type: array
+      items:
+        type: object
+        properties:
+          color:
+            type: string
+          value:
+            type: integer
+
+fieldConfigMapping:
+  type: object
+  properties:
+    id:
+      type: integer
+    type:
+      type: integer
+    from:
+      type: string
+    to:
+      type: string
+    operator:
+      type: string
+    text:
+      type: string
+    value:
+      type: string
+
+fieldConfigOverrides:
+  type: object
+  properties:
+    matcher:
+      type: oject
+      properties:
+        id:
+          type: string
+        options:
+          type: string
+    properties:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+          value:
+            type: integer

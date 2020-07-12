@@ -1,0 +1,17 @@
+gridPos:
+  type: object
+  properties:
+    h:
+      type: integer
+      default: 4
+      description: Panel height.
+    w:
+      type: integer
+      default: 6
+      description: Panel width.
+    x:
+      type: integer
+      description: Panel x position.
+    y:
+      type: integer
+      description: Panel y position.
