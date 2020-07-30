@@ -1,32 +1,26 @@
-IMAGE=openapitools/openapi-generator-cli:v4.3.1
+SPEC_VERSION ?= 7.0
 
 validate:
+	@swagger-cli validate \
+		--no-schema \
+		specs/${SPEC_VERSION}/spec.yml
+
+bundle: validate
+	@swagger-cli bundle \
+		--dereference \
+		--outfile bundle/${SPEC_VERSION}/spec.json \
+		specs/${SPEC_VERSION}/spec.yml
+
+GENERATOR_IMAGE = openapitools/openapi-generator-cli:v4.3.1
+GENERATOR ?= go
+
+generate: bundle
 	@docker run --rm \
-		-v $$PWD:/specs \
-		--entrypoint bash \
-		${IMAGE} \
-		-c 'cp -r /specs/specs/7.0 /tmp/ && \
-			(cd /specs && ./generate-spec 7.0 /tmp/7.0/spec.yml) && \
-			docker-entrypoint.sh validate -i /tmp/7.0/spec.yml'
+		-v $$PWD/bundle:/bundle \
+		-v $$PWD/_gen:/gen \
+		${GENERATOR_IMAGE} \
+		generate -i /bundle/${SPEC_VERSION}/spec.json \
+			--global-property models,modelTests=false \
+			--generator-name ${GENERATOR} --output /gen/${SPEC_VERSION}/${GENERATOR}
 
-GENERATOR=go
-go: generate
-
-python: GENERATOR=python
-python: generate
-
-ruby: GENERATOR=ruby
-ruby: generate
-
-generate:
-	@mkdir -p output
-	@docker run --rm \
-		-v $$PWD:/specs \
-		-v $$PWD/output:/output \
-		--entrypoint bash \
-		${IMAGE} \
-		-c 'cp -r /specs/specs/7.0 /tmp/ && \
-			(cd /specs && ./generate-spec 7.0 /tmp/7.0/spec.yml) && \
-			docker-entrypoint.sh generate -i /tmp/7.0/spec.yml \
-				--global-property models,modelTests=false \
-				--generator-name ${GENERATOR} --output /output/${GENERATOR}'
+.PHONY: validate bundle generate
