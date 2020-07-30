@@ -1,0 +1,14 @@
+openapi: 3.0.3
+
+info:
+  title: Grafana Dashboard Spec
+  version: '7.0'
+
+paths: {}
+
+components:
+  schemas:
+    GaugePanel:
+      $ref: 'GaugePanel.yml#/GaugePanel'
+    StatPanel:
+      $ref: 'StatPanel.yml#/StatPanel'
