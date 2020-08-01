@@ -1,4 +1,4 @@
-GaugePanel:
+Table:
   type: object
   required:
     - title
@@ -10,12 +10,6 @@ GaugePanel:
       type: string
     fieldConfig:
       $ref: '#/fieldConfig'
-    gridPos:
-      $ref: 'gridPos.yml#/gridPos'
-    links:
-      type: array
-      items:
-        $ref: 'link.yml#/link'
     options:
       $ref: '#/options'
     title:
@@ -25,11 +19,21 @@ GaugePanel:
       default: false
     type:
       type: string
-      default: 'gauge'
+      default: 'table'
+
+custom:
+  type: object
+  properties:
+    width:
+      type: integer
 
 defaults:
   type: object
   properties:
+    custom:
+      $ref: '#/custom'
+    displayName:
+      type: string
     links:
       type: array
       items:
@@ -44,6 +48,8 @@ defaults:
     min:
       type: integer
       default: 0
+    noValue:
+      type: string
     thresholds:
       type: array
       items:
@@ -65,26 +71,6 @@ fieldConfig:
 options:
   type: object
   properties:
-    orientation:
-      type: string
-      default: auto
-    reduceOptions:
-      type: object
-      properties:
-        calcs:
-          type: array
-          items:
-            type: string
-          default:
-            - mean
-        fields:
-          type: string
-        values:
-          type: boolean
-          default: false
-    showThresholdLabels:
+    showHeader:
       type: boolean
-      default: false
-    showThresholdMarkers:
-      type: boolean
-      default: true
+      deafult: true

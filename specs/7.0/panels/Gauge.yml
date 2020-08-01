@@ -1,4 +1,4 @@
-GaugePanel:
+Gauge:
   type: object
   required:
     - title

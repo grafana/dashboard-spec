@@ -1,4 +1,4 @@
-PrometheusDataSource:
+Prometheus:
   type: object
   required:
     - expr

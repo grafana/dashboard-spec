@@ -8,11 +8,17 @@ paths: {}
 
 components:
   schemas:
-    GaugePanel:
-      $ref: 'GaugePanel.yml#/GaugePanel'
-    PrometheusDataSource:
-      $ref: 'PrometheusDataSource.yml#/PrometheusDataSource'
-    StatPanel:
-      $ref: 'StatPanel.yml#/StatPanel'
-    TablePanel:
-      $ref: 'TablePanel.yml#/TablePanel'
+    DataSource:
+      type: object
+      properties:
+        Prometheus:
+          $ref: 'datasources/Prometheus.yml#/Prometheus'
+    Panel:
+      type: object
+      properties:
+        Gauge:
+          $ref: 'panels/Gauge.yml#/Gauge'
+        Stat:
+          $ref: 'panels/Stat.yml#/Stat'
+        Table:
+          $ref: 'panels/Table.yml#/Table'

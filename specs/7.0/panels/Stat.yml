@@ -1,39 +1,35 @@
-TablePanel:
+Stat:
   type: object
   required:
     - title
   properties:
+    type:
+      type: string
+      default: 'stat'
+    title:
+      type: string
+    description:
+      type: string
     datasource:
       type: string
       default: default
-    description:
-      type: string
+    transparent:
+      type: boolean
+      default: false
     fieldConfig:
       $ref: '#/fieldConfig'
     options:
       $ref: '#/options'
-    title:
-      type: string
-    transparent:
-      type: boolean
-      default: false
-    type:
-      type: string
-      default: 'table'
-
-custom:
-  type: object
-  properties:
-    width:
-      type: integer
+    links:
+      type: array
+      items:
+        $ref: 'link.yml#/link'
+    gridPos:
+      $ref: 'gridPos.yml#/gridPos'
 
 defaults:
   type: object
   properties:
-    custom:
-      $ref: '#/custom'
-    displayName:
-      type: string
     links:
       type: array
       items:
@@ -48,8 +44,6 @@ defaults:
     min:
       type: integer
       default: 0
-    noValue:
-      type: string
     thresholds:
       type: array
       items:
@@ -71,6 +65,26 @@ fieldConfig:
 options:
   type: object
   properties:
-    showHeader:
+    orientation:
+      type: string
+      default: auto
+    reduceOptions:
+      type: object
+      properties:
+        calcs:
+          type: array
+          items:
+            type: string
+          default:
+            - mean
+        fields:
+          type: string
+        values:
+          type: boolean
+          default: false
+    showThresholdLabels:
       type: boolean
-      deafult: true
+      default: false
+    showThresholdMarkers:
+      type: boolean
+      default: true
