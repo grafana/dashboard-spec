@@ -2,13 +2,13 @@ fieldConfig:
   type: object
   properties:
     defaults:
-      $ref: '#/fieldConfigDefaults'
+      $ref: '#/defaults'
     overrides:
       type: array
       items:
-        $ref: '#/fieldConfigOverrides'
+        $ref: '#/override'
 
-fieldConfigDefaults:
+defaults:
   type: object
   properties:
     links:
@@ -18,7 +18,7 @@ fieldConfigDefaults:
     mappings:
       type: array
       items:
-        $ref: '#/fieldConfigMapping'
+        $ref: '#/mapping'
     max:
       type: integer
       default: 0
@@ -28,28 +28,12 @@ fieldConfigDefaults:
     thresholds:
       type: array
       items:
-        $ref: '#/fieldConfigThreshold'
+        $ref: '#/threshold'
     unit:
       type: string
       default: short
 
-fieldConfigThreshold:
-  type: object
-  properties:
-    mode:
-      type: string
-      default: absolute
-    steps:
-      type: array
-      items:
-        type: object
-        properties:
-          color:
-            type: string
-          value:
-            type: integer
-
-fieldConfigMapping:
+mapping:
   type: object
   properties:
     id:
@@ -67,7 +51,7 @@ fieldConfigMapping:
     value:
       type: string
 
-fieldConfigOverrides:
+override:
   type: object
   properties:
     matcher:
@@ -83,6 +67,22 @@ fieldConfigOverrides:
         type: object
         properties:
           id:
+            type: string
+          value:
+            type: integer
+
+threshold:
+  type: object
+  properties:
+    mode:
+      type: string
+      default: absolute
+    steps:
+      type: array
+      items:
+        type: object
+        properties:
+          color:
             type: string
           value:
             type: integer
