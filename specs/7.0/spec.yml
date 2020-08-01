@@ -12,3 +12,5 @@ components:
       $ref: 'GaugePanel.yml#/GaugePanel'
     StatPanel:
       $ref: 'StatPanel.yml#/StatPanel'
+    TablePanel:
+      $ref: 'TablePanel.yml#/TablePanel'

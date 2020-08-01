@@ -1,0 +1,76 @@
+TablePanel:
+  type: object
+  required:
+    - title
+  properties:
+    datasource:
+      type: string
+      default: default
+    description:
+      type: string
+    fieldConfig:
+      $ref: '#/fieldConfig'
+    options:
+      $ref: '#/options'
+    title:
+      type: string
+    transparent:
+      type: boolean
+      default: false
+    type:
+      type: string
+      default: 'table'
+
+custom:
+  type: object
+  properties:
+    width:
+      type: integer
+
+defaults:
+  type: object
+  properties:
+    custom:
+      $ref: '#/custom'
+    displayName:
+      type: string
+    links:
+      type: array
+      items:
+        $ref: 'link.yml#/link'
+    mappings:
+      type: array
+      items:
+        $ref: 'mapping.yml#/mapping'
+    max:
+      type: integer
+      default: 0
+    min:
+      type: integer
+      default: 0
+    noValue:
+      type: string
+    thresholds:
+      type: array
+      items:
+        $ref: 'threshold.yml#/threshold'
+    unit:
+      type: string
+      default: short
+
+fieldConfig:
+  type: object
+  properties:
+    defaults:
+      $ref: '#/defaults'
+    overrides:
+      type: array
+      items:
+        $ref: 'override.yml#/override'
+
+options:
+  type: object
+  properties:
+    showHeader:
+      type: boolean
+      deafult: true
