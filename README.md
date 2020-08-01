@@ -23,6 +23,10 @@ All properties should have a description. This is used for API doc generation.
 File names should be in camel case. All files referenced as a schema component
 in a `spec.yml` should begin with a capital letter (PascalCase).
 
+Everything is either a "panel", "datasource", or "template". Each object's
+definition should live in its respective directory of the spec version it's
+modeling.
+
 ### [bundle/](./bundle)
 
 Single file JSON specs generated from the YAML in [specs/](./specs). This is
