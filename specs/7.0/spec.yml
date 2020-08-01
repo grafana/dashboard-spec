@@ -10,6 +10,8 @@ components:
   schemas:
     GaugePanel:
       $ref: 'GaugePanel.yml#/GaugePanel'
+    PrometheusDataSource:
+      $ref: 'PrometheusDataSource.yml#/PrometheusDataSource'
     StatPanel:
       $ref: 'StatPanel.yml#/StatPanel'
     TablePanel:
