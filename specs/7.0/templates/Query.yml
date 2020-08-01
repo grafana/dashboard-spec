@@ -1,0 +1,74 @@
+Query:
+  type: object
+  required:
+    - name
+  properties:
+    allValue:
+      type: string
+    current:
+      type: object
+      properties:
+        selected:
+          type: boolean
+        text:
+          type: string
+        value:
+          type: string
+    datasource:
+      type: string
+    definition:
+      type: string
+      default: yes
+    hide:
+      type: integer
+      default: 0
+    includeAll:
+      type: boolean
+      default: true
+    label:
+      type: string
+    multi:
+      type: boolean
+      default: false
+    name:
+      type: string
+    options:
+      type: array
+      items:
+        type: object
+        properties:
+          selected:
+            type: boolean
+            default: true
+          text:
+            type: string
+          value:
+            type: string
+    query:
+      type: string
+      default: yes
+    refresh:
+      type: integer
+      default: 0
+    regex:
+      type: string
+    skipUrlSync:
+      type: string
+      default: false
+    sort:
+      type: integer
+      default: 0
+    tagValuesQuery:
+      type: string
+    tags:
+      type: array
+      items:
+        type: string
+    tagsQuery:
+      type: string
+    type:
+      type: string
+      default: 'query'
+    useTags:
+      type: boolean
+      default: false

@@ -22,3 +22,8 @@ components:
           $ref: 'panels/Stat.yml#/Stat'
         Table:
           $ref: 'panels/Table.yml#/Table'
+    Template:
+      type: object
+      properties:
+        Query:
+          $ref: 'templates/Query.yml#/Query'
