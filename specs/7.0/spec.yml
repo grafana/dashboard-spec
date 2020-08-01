@@ -8,6 +8,8 @@ paths: {}
 
 components:
   schemas:
+    Dashboard:
+      $ref: 'Dashboard.yml#/Dashboard'
     DataSource:
       type: object
       properties:

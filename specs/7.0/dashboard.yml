@@ -1,0 +1,63 @@
+Dashboard:
+  type: object
+  required:
+    - title
+  properties:
+    editable:
+      type: boolean
+      default: true
+    graphTooltip:
+      type: integer
+      default: 0
+    id:
+      type: integer
+      readOnly: true
+    links:
+      type: array
+      items:
+        $ref: 'panels/link.yml#/link'
+    schemaVersion:
+      type: integer
+      default: 25
+    style:
+      type: string
+      default: dark
+    tags:
+      type: array
+      items:
+        type: string
+    time:
+      type: object
+      properties:
+        from:
+          type: string
+          default: now-6h
+        to:
+          type: string
+          default: now
+    timepicker:
+      type: object
+      properties:
+        refresh_intervals:
+          type: array
+          items:
+            type: string
+          default:
+            - 10s
+            - 30s
+            - 1m
+            - 5m
+            - 15m
+            - 30m
+            - 1h
+            - 2h
+            - 1d
+    timezone:
+      type: string
+    title:
+      type: string
+    uid:
+      type: string
+    version:
+      type: string
+      readOnly: true
