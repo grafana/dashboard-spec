@@ -17,15 +17,50 @@ StatPanel:
       type: boolean
       default: false
     fieldConfig:
-      $ref: 'fieldConfig.yml#/fieldConfig'
+      $ref: '#/fieldConfig'
     options:
-      $ref: 'options.yml#/options'
+      $ref: '#/options'
     links:
       type: array
       items:
         $ref: 'link.yml#/link'
     gridPos:
       $ref: 'gridPos.yml#/gridPos'
+
+defaults:
+  type: object
+  properties:
+    links:
+      type: array
+      items:
+        $ref: 'link.yml#/link'
+    mappings:
+      type: array
+      items:
+        $ref: 'mapping.yml#/mapping'
+    max:
+      type: integer
+      default: 0
+    min:
+      type: integer
+      default: 0
+    thresholds:
+      type: array
+      items:
+        $ref: 'threshold.yml#/threshold'
+    unit:
+      type: string
+      default: short
+
+fieldConfig:
+  type: object
+  properties:
+    defaults:
+      $ref: '#/defaults'
+    overrides:
+      type: array
+      items:
+        $ref: 'override.yml#/override'
 
 options:
   type: object

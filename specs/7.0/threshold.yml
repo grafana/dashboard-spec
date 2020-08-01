@@ -1,0 +1,15 @@
+threshold:
+  type: object
+  properties:
+    mode:
+      type: string
+      default: absolute
+    steps:
+      type: array
+      items:
+        type: object
+        properties:
+          color:
+            type: string
+          value:
+            type: integer
