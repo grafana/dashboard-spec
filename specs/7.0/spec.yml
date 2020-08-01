@@ -10,11 +10,6 @@ components:
   schemas:
     Dashboard:
       $ref: 'Dashboard.yml#/Dashboard'
-    DataSource:
-      type: object
-      properties:
-        Prometheus:
-          $ref: 'datasources/Prometheus.yml#/Prometheus'
     Panel:
       type: object
       properties:
@@ -24,6 +19,11 @@ components:
           $ref: 'panels/Stat.yml#/Stat'
         Table:
           $ref: 'panels/Table.yml#/Table'
+    Target:
+      type: object
+      properties:
+        Prometheus:
+          $ref: 'targets/Prometheus.yml#/Prometheus'
     Template:
       type: object
       properties:
