@@ -3,26 +3,53 @@ GaugePanel:
   required:
     - title
   properties:
-    type:
-      type: string
-      default: 'gauge'
-    title:
-      type: string
-    description:
-      type: string
     datasource:
       type: string
       default: default
-    transparent:
-      type: boolean
-      default: false
+    description:
+      type: string
     fieldConfig:
       $ref: 'fieldConfig.yml#/fieldConfig'
-    options:
-      $ref: 'options.yml#/options'
+    gridPos:
+      $ref: 'gridPos.yml#/gridPos'
     links:
       type: array
       items:
         $ref: 'link.yml#/link'
-    gridPos:
-      $ref: 'gridPos.yml#/gridPos'
+    options:
+      $ref: '#/options'
+    title:
+      type: string
+    transparent:
+      type: boolean
+      default: false
+    type:
+      type: string
+      default: 'gauge'
+
+options:
+  type: object
+  properties:
+    orientation:
+      type: string
+      default: auto
+    reduceOptions:
+      type: object
+      properties:
+        calcs:
+          type: array
+          items:
+            type: string
+          default:
+            - mean
+        fields:
+          type: string
+        values:
+          type: boolean
+          default: false
+    showThresholdLabels:
+      type: boolean
+      default: false
+    showThresholdMarkers:
+      type: boolean
+      default: true

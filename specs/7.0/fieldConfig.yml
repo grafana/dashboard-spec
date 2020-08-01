@@ -11,27 +11,27 @@ fieldConfig:
 fieldConfigDefaults:
   type: object
   properties:
-    unit:
-      type: string
-      default: short
-    min:
+    links:
+      type: array
+      items:
+        $ref: 'link.yml#/link'
+    mappings:
+      type: array
+      items:
+        $ref: '#/fieldConfigMapping'
+    max:
       type: integer
       default: 0
-    max:
+    min:
       type: integer
       default: 0
     thresholds:
       type: array
       items:
         $ref: '#/fieldConfigThreshold'
-    mappings:
-      type: array
-      items:
-        $ref: '#/fieldConfigMapping'
-    links:
-      type: array
-      items:
-        $ref: 'link.yml#/link'
+    unit:
+      type: string
+      default: short
 
 fieldConfigThreshold:
   type: object
@@ -54,16 +54,16 @@ fieldConfigMapping:
   properties:
     id:
       type: integer
-    type:
-      type: integer
     from:
-      type: string
-    to:
       type: string
     operator:
       type: string
+    to:
+      type: string
     text:
       type: string
+    type:
+      type: integer
     value:
       type: string
 
