@@ -10,15 +10,18 @@ import (
 )
 
 func main() {
-	l, exists := os.LookupEnv("LANG")
+	const lvar = "GDS_GEN_LANG"
+	l, exists := os.LookupEnv(lvar)
 	if !exists {
-		log.Fatalln("Set `LANG` environment variable to indicate which language you'd like to generate models for")
+		log.Fatalf("Set `%s` environment variable to indicate which language you'd like to generate models for.", lvar)
 	}
 	spec := loadSpec("bundle/7.0/spec.json")
 	s := spec["components"].(map[string]interface{})["schemas"]
 	switch l {
 	case "jsonnet":
 		jsonnet.Generate(s)
+	default:
+		log.Fatalf("Unsupported language: %s=%s.", lvar, l)
 	}
 }
 
