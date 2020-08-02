@@ -4,17 +4,45 @@
     {{$name}}={{$schema.DefaultJSON}},
     {{- end}}
   ):: {
+
     {{- range $name, $schema := .MutableProperties}}
-    {{$name}}: {{$name}},
+    [if {{$name}} != null then '{{$name}}']: {{$name}},
     {{- end}}
 
+    annotations: [],
+    addAnnotation(
+      {{- with index .Properties.annotations}}
+      {{- range $name, $schema := .Items.Properties}}
+      {{$name}}={{$schema.DefaultJSON}},
+      {{- end}}
+      {{- end}}
+    ):: self {
+      annotations+: [{
+        {{- with index .Properties.annotations}}
+        {{- range $name, $schema := .Items.Properties}}
+        [if {{$name}} != null then '{{$name}}']: {{$name}},
+        {{- end}}
+        {{- end}}
+      }],
+    },
+
+    panels: [],
+    _nextPanel:: 2,
+    addPanel(panel):: self {
+      local nextPanel = super._nextPanel,
+      _nextPanel: nextPanel + 1,
+      panels+: [panel { id: nextPanel }],
+    },
+    addPanels(panels):: std.foldl(function(d, p) d.addPanel(p), panels, self),
+
+    templating: { steps: [] },
+    addTemplates(templates):: self {
+      templating+: { steps+: templates },
+    },
+    addTemplate(t):: self.addTemplates([t]),
+
     // TODO:
-    // * annotations
-    // * templates
-    // * panels
     // * links
-    // * requires
-    // * inputs
 
   },
 }
