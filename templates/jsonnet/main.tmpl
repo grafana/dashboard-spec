@@ -1,0 +1,12 @@
+{
+  dashboard:: import 'dashboard.libsonnet',
+  panel:: { {{- range $name, $schema := .Panel.Properties}}
+    {{objectInflection $name}}:: import 'panel/{{objectInflection $name}}.libsonnet',{{end}}
+  },
+  target:: { {{- range $name, $schema := .Target.Properties}}
+    {{objectInflection $name}}:: import 'target/{{objectInflection $name}}.libsonnet',{{end}}
+  },
+  template:: { {{- range $name, $schema := .Template.Properties}}
+    {{objectInflection $name}}:: import 'template/{{objectInflection $name}}.libsonnet',{{end}}
+  },
+}

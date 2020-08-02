@@ -1,0 +1,11 @@
+{
+  new(
+    {{- range $name, $schema := .MutableProperties}}
+    {{$name}}={{$schema.DefaultJSON}},
+    {{- end}}
+  ):: {
+    {{- range $name, $schema := .MutableProperties}}
+    {{$name}}: {{$name}},
+    {{- end}}
+  },
+}
