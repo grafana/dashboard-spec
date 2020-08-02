@@ -106,41 +106,6 @@
           }
         }
       },
-      "DataSource": {
-        "type": "object",
-        "properties": {
-          "Prometheus": {
-            "type": "object",
-            "required": [
-              "expr"
-            ],
-            "properties": {
-              "datasource": {
-                "type": "string",
-                "default": "default"
-              },
-              "expr": {
-                "type": "string"
-              },
-              "format": {
-                "type": "string",
-                "default": "time_series"
-              },
-              "interalFactor": {
-                "type": "integer",
-                "default": 2
-              },
-              "legendFormat": {
-                "type": "string"
-              },
-              "refId": {
-                "type": "string",
-                "readOnly": true
-              }
-            }
-          }
-        }
-      },
       "Panel": {
         "type": "object",
         "properties": {
@@ -779,6 +744,41 @@
               "type": {
                 "type": "string",
                 "default": "table"
+              }
+            }
+          }
+        }
+      },
+      "Target": {
+        "type": "object",
+        "properties": {
+          "Prometheus": {
+            "type": "object",
+            "required": [
+              "expr"
+            ],
+            "properties": {
+              "datasource": {
+                "type": "string",
+                "default": "default"
+              },
+              "expr": {
+                "type": "string"
+              },
+              "format": {
+                "type": "string",
+                "default": "time_series"
+              },
+              "interalFactor": {
+                "type": "integer",
+                "default": 2
+              },
+              "legendFormat": {
+                "type": "string"
+              },
+              "refId": {
+                "type": "string",
+                "readOnly": true
               }
             }
           }
