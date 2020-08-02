@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"path"
+	"strings"
 	"text/template"
 
 	"github.com/go-openapi/inflect"
@@ -69,6 +70,12 @@ func generate(l Language, s Spec) error {
 		tmpl, err := template.New(tmplFile).Funcs(
 			template.FuncMap{
 				"objectInflection": l.OjectInflection,
+				"add": func(x int, y int) int {
+					return x + y
+				},
+				"repeat": func(s string, n int) string {
+					return strings.Repeat(s, n)
+				},
 			},
 		).ParseFiles(path.Join("templates", l.Directory, tmplFile))
 		if err != nil {
