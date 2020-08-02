@@ -24,20 +24,20 @@ type Language struct {
 
 func main() {
 	const lvar = "GDS_GEN_LANG"
-	l, exists := os.LookupEnv(lvar)
+	lang, exists := os.LookupEnv(lvar)
 	if !exists {
 		log.Fatalf("Set `%s` environment variable to indicate which language you'd like to generate models for.", lvar)
 	}
-	g := map[string]Language{
+	l := map[string]Language{
 		"jsonnet": {
 			Directory:          "jsonnet",
 			FileExtension:      "libsonnet",
 			FileNameInflection: inflect.CamelizeDownFirst,
 			OjectInflection:    inflect.CamelizeDownFirst,
 		},
-	}[l]
+	}[lang]
 	s := loadSpec("bundle/7.0/spec.json")
-	err := generate(g, s)
+	err := generate(l, s)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -64,7 +64,7 @@ func generate(l Language, s Spec) error {
 	}
 
 	// Function that renders templates and writes them to files.
-	g := func(name string, tmplType string, sc interface{}) error {
+	g := func(name string, tmplType string, data interface{}) error {
 		tmplFile := fmt.Sprintf("%s.tmpl", tmplType)
 		tmpl, err := template.New(tmplFile).Funcs(
 			template.FuncMap{
@@ -83,7 +83,7 @@ func generate(l Language, s Spec) error {
 		if err != nil {
 			return err
 		}
-		return tmpl.Execute(f, sc)
+		return tmpl.Execute(f, data)
 	}
 
 	// Generate dashboard file.
