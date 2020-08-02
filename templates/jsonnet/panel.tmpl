@@ -13,15 +13,19 @@
     [if {{$name}} != null then '{{$name}}']: {{$name}},
     {{- end}}
 
-    fieldConfig(
-      {{- range $name, $iface := .Properties.fieldConfig.FlattenedNonArrayProperties}}
+    {{- define "object"}}
+      {{- range $name, $iface := .FlattenedNonArrayProperties}}
       {{$name}}={{$iface.schema.DefaultJSON}},
       {{- end}}
     ):: self {}
-      {{range $name, $iface := .Properties.fieldConfig.FlattenedNonArrayProperties -}}
+      {{range $name, $iface := .FlattenedNonArrayProperties -}}
       + {{range $i, $level := $iface.location -}}
       { {{if eq (add 1 $i) (len $iface.location)}}{{$level}}: {{$name}}{{repeat " }" (len $iface.location)}}{{else}}{{$level}}+: {{end}}{{end}}
       {{end}},
+    {{end}}
+
+    fieldConfig(
+    {{- template "object" .Properties.fieldConfig}}
 
 
 
