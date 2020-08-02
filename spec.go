@@ -45,3 +45,27 @@ func (s Schema) DefaultJSON() string {
 	}
 	return string(b)
 }
+
+// Recursively flattens objects in a schema's properties. This is used for
+// simplifying the interfaces of objects with many levels of nesting.
+func (s Schema) FlattenedNonArrayProperties() map[string]map[string]interface{} {
+	p := map[string]map[string]interface{}{}
+	var flatten func(*Schema, []string)
+	flatten = func(s *Schema, locationPrefix []string) {
+		for n, s := range s.Properties {
+			if s.Type == "array" {
+				continue
+			}
+			if s.Type == "object" {
+				flatten(s, append(locationPrefix, n))
+			} else {
+				p[n] = map[string]interface{}{
+					"location": append(locationPrefix, n),
+					"schema":   s,
+				}
+			}
+		}
+	}
+	flatten(&s, []string{})
+	return p
+}
