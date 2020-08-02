@@ -3,6 +3,7 @@ link:
   properties:
     targetBlank:
       type: boolean
+      default: true
     title:
       type: string
     url:

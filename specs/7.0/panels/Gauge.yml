@@ -26,9 +26,11 @@ Gauge:
     type:
       type: string
       default: 'gauge'
+      readOnly: true
 
 defaults:
   type: object
+  readOnly: true
   properties:
     links:
       type: array
@@ -45,15 +47,14 @@ defaults:
       type: integer
       default: 0
     thresholds:
-      type: array
-      items:
-        $ref: 'threshold.yml#/threshold'
+      $ref: 'threshold.yml#/threshold'
     unit:
       type: string
       default: short
 
 fieldConfig:
   type: object
+  readOnly: true
   properties:
     defaults:
       $ref: '#/defaults'
@@ -64,6 +65,7 @@ fieldConfig:
 
 options:
   type: object
+  readOnly: true
   properties:
     orientation:
       type: string

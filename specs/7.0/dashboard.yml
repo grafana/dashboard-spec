@@ -3,6 +3,13 @@ Dashboard:
   required:
     - title
   properties:
+    annotations:
+      type: array
+      items:
+        $ref: '#/annotation'
+      readOnly: true
+    description:
+      type: string
     editable:
       type: boolean
       default: true
@@ -12,10 +19,13 @@ Dashboard:
     id:
       type: integer
       readOnly: true
-    links:
+    panels:
       type: array
       items:
-        $ref: 'panels/link.yml#/link'
+        type: object
+      readOnly: true
+    refresh:
+      type: string
     schemaVersion:
       type: integer
       default: 25
@@ -26,15 +36,23 @@ Dashboard:
       type: array
       items:
         type: string
+      default: []
+    templating:
+      type: object
+      properties:
+        list:
+          type: array
+      readOnly: true
     time:
       type: object
       properties:
         from:
           type: string
-          default: now-6h
         to:
           type: string
-          default: now
+      default:
+        from: now-6h
+        to: now
     timepicker:
       type: object
       properties:
@@ -42,18 +60,20 @@ Dashboard:
           type: array
           items:
             type: string
-          default:
-            - 10s
-            - 30s
-            - 1m
-            - 5m
-            - 15m
-            - 30m
-            - 1h
-            - 2h
-            - 1d
+      default:
+        refresh_intervals:
+          - 10s
+          - 30s
+          - 1m
+          - 5m
+          - 15m
+          - 30m
+          - 1h
+          - 2h
+          - 1d
     timezone:
       type: string
+      default: browser
     title:
       type: string
     uid:
@@ -61,3 +81,29 @@ Dashboard:
     version:
       type: string
       readOnly: true
+
+annotation:
+  type: object
+  properties:
+    builtIn:
+      type: integer
+      default: 0
+      readOnly: true
+    datasource:
+      type: string
+      default: default
+    enable:
+      type: boolean
+      default: true
+    hide:
+      type: boolean
+      default: false
+    iconColor:
+      type: string
+    name:
+      type: string
+    rawQuery:
+      type: string
+    showIn:
+      type: integer
+      default: 0

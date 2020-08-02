@@ -10,6 +10,10 @@ Table:
       type: string
     fieldConfig:
       $ref: '#/fieldConfig'
+    links:
+      type: array
+      items:
+        $ref: 'link.yml#/link'
     options:
       $ref: '#/options'
     title:
@@ -20,15 +24,18 @@ Table:
     type:
       type: string
       default: 'table'
+      readOnly: true
 
 custom:
   type: object
+  readOnly: true
   properties:
     width:
       type: integer
 
 defaults:
   type: object
+  readOnly: true
   properties:
     custom:
       $ref: '#/custom'
@@ -51,15 +58,14 @@ defaults:
     noValue:
       type: string
     thresholds:
-      type: array
-      items:
-        $ref: 'threshold.yml#/threshold'
+      $ref: 'threshold.yml#/threshold'
     unit:
       type: string
       default: short
 
 fieldConfig:
   type: object
+  readOnly: true
   properties:
     defaults:
       $ref: '#/defaults'
@@ -70,6 +76,7 @@ fieldConfig:
 
 options:
   type: object
+  readOnly: true
   properties:
     showHeader:
       type: boolean
