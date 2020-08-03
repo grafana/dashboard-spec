@@ -14,7 +14,7 @@ models facilitate writing dashboards as code.
 
 Human-managed specification YAML files.
 
-#### Style Guide
+#### Style Guide for Spec Files
 
 All properties of an object should be defined alphabetically.
 
@@ -31,3 +31,34 @@ modeling.
 
 Single file JSON specs generated from the YAML in [specs/](./specs). This is
 what should be consumed by OpenAPI tooling like code generators.
+
+### [templates/](./templates)
+
+Templates for the code generator. Child directories are named after the language
+they contain templates for.
+
+Each language must implment the following templates:
+
+* `main.tmpl`: this is the main library file. It's intended that this file be
+  imported when implementing the generated code.
+* `dashboard.tmpl`: for generating the dashboard object and file.
+* `panel.tmpl`: for generating panel objects and files.
+* `target.tmpl`: for generating target objects and files.
+* `template.tmpl`: for generating template objects and files.
+
+#### Style Guide for Templates
+
+Arrays of objects should use mutator functions to append to them. For example
+`addLink()`.
+
+Arrays of single values should be set as top level arguemnts.
+
+First level nested objects should also use mutator functions with all non-array
+fields as arguemnts. For example, `feildConfig(min=0, max=100)`.
+
+If fields need special processing, set them as readOnly and implement static
+functions. For example if you need to add an incrementing `id` field like we do
+for panels.
+
+If a property is `readOnly` and also has default, set the default as a static
+value on the object.
