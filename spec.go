@@ -28,6 +28,7 @@ type Schema struct {
 	Type        string
 }
 
+// Return a schema's default property as JSON.
 func (s Schema) DefaultJSON() string {
 	b, err := json.Marshal(s.Default)
 	if err != nil {
@@ -60,6 +61,8 @@ func (s Schema) TopLevelObjectProperties() map[string]*Schema {
 	return p
 }
 
+// Returns all properties that are readOnly and have a default property. It's
+// intended that these are set, but not explicitly configurable.
 func (s Schema) ReadOnlyWithDefaultProperties() map[string]map[string]interface{} {
 	p := map[string]map[string]interface{}{}
 	var flatten func(*Schema, []string)
