@@ -74,6 +74,9 @@ func generate(l Language, s Spec) error {
 				"add": func(x int, y int) int {
 					return x + y
 				},
+				"subtract": func(x int, y int) int {
+					return x - y
+				},
 				"repeat": func(s string, n int) string {
 					return strings.Repeat(s, n)
 				},

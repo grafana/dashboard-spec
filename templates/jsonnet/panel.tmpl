@@ -5,12 +5,13 @@
     {{- end}}
   ):: {
 
-    {{- with index .Properties.type}}
-    type: {{.DefaultJSON}},
-    {{- end}}
-
     {{- range $name, $schema := .TopLevelSingleValProperties}}
     [if {{$name}} != null then '{{$name}}']: {{$name}},
+    {{- end}}
+
+    {{- range $name, $iface := .ReadOnlyWithDefaultProperties}}
+    {{range $i, $level := $iface.location -}}
+    {{if eq (add 1 $i) (len $iface.location)}}{{$level}}: {{$iface.schema.DefaultJSON}}{{repeat " }" (subtract (len $iface.location) 1)}}{{else}}{{$level}}+: { {{end}}{{end}},
     {{- end}}
 
     {{range $topName, $schema := .TopLevelObjectProperties}}
@@ -49,7 +50,4 @@
     },
     addTargets(targets):: std.foldl(function(p, t) p.addTarget(t), targets, self),
   },
-
-  // options
-  // fieldConfig
 }

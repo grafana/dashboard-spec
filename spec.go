@@ -60,6 +60,25 @@ func (s Schema) TopLevelObjectProperties() map[string]*Schema {
 	return p
 }
 
+func (s Schema) ReadOnlyWithDefaultProperties() map[string]map[string]interface{} {
+	p := map[string]map[string]interface{}{}
+	var flatten func(*Schema, []string)
+	flatten = func(s *Schema, locationPrefix []string) {
+		for n, s := range s.Properties {
+			if s.ReadOnly && s.Default != nil {
+				p[n] = map[string]interface{}{
+					"location": append(locationPrefix, n),
+					"schema":   s,
+				}
+			} else if s.Type == "object" {
+				flatten(s, append(locationPrefix, n))
+			}
+		}
+	}
+	flatten(&s, []string{})
+	return p
+}
+
 // Returns nested objects and arrays that should be part of a constructor
 // method. This includes all objects and flat arrays. This is used to simplify
 // object interfaces on those with many levels of nesting.
