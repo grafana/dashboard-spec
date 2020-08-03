@@ -47,8 +47,10 @@ Dashboard:
       properties:
         from:
           type: string
+          default: now-6h
         to:
           type: string
+          default: now
       default:
         from: now-6h
         to: now
