@@ -15,7 +15,7 @@
     {{- end}}
 
     {{range $topName, $schema := .TopLevelObjectProperties}}
-    {{$topName}}(
+    {{objectInflection (printf "set %s" $topName)}}(
       {{- range $name, $iface := $schema.ConstructableProperties}}
       {{$name}}={{$iface.schema.DefaultJSON}},
       {{- end}}
@@ -56,9 +56,5 @@
       templating+: { steps+: templates },
     },
     addTemplate(t):: self.addTemplates([t]),
-
-    // TODO:
-    // * links
-
   },
 }
