@@ -30,7 +30,6 @@ Gauge:
 
 defaults:
   type: object
-  readOnly: true
   properties:
     links:
       type: array
@@ -54,7 +53,6 @@ defaults:
 
 fieldConfig:
   type: object
-  readOnly: true
   properties:
     defaults:
       $ref: '#/defaults'
@@ -65,7 +63,6 @@ fieldConfig:
 
 options:
   type: object
-  readOnly: true
   properties:
     orientation:
       type: string

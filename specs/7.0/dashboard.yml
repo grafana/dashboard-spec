@@ -7,7 +7,6 @@ Dashboard:
       type: array
       items:
         $ref: '#/annotation'
-      readOnly: true
     description:
       type: string
     editable:

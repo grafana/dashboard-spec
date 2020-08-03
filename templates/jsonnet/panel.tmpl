@@ -1,6 +1,6 @@
 {
   new(
-    {{- range $name, $schema := .MutableProperties}}
+    {{- range $name, $schema := .TopLevelSingleValProperties}}
     {{$name}}={{$schema.DefaultJSON}},
     {{- end}}
   ):: {
@@ -9,7 +9,7 @@
     type: {{.DefaultJSON}},
     {{- end}}
 
-    {{- range $name, $schema := .MutableProperties}}
+    {{- range $name, $schema := .TopLevelSingleValProperties}}
     [if {{$name}} != null then '{{$name}}']: {{$name}},
     {{- end}}
 

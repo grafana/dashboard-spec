@@ -28,22 +28,25 @@ type Schema struct {
 	Type        string
 }
 
-func (s Schema) MutableProperties() map[string]*Schema {
-	p := map[string]*Schema{}
-	for n, s := range s.Properties {
-		if !s.ReadOnly {
-			p[n] = s
-		}
-	}
-	return p
-}
-
 func (s Schema) DefaultJSON() string {
 	b, err := json.Marshal(s.Default)
 	if err != nil {
 		log.Fatalln(err)
 	}
 	return string(b)
+}
+
+// Returns all top-level properties of a schema object that are not an array or
+// object. These are intended to be used as function arguments for the object's
+// constructor.
+func (s Schema) TopLevelSingleValProperties() map[string]*Schema {
+	p := map[string]*Schema{}
+	for n, s := range s.Properties {
+		if s.Type != "array" && s.Type != "object" && !s.ReadOnly {
+			p[n] = s
+		}
+	}
+	return p
 }
 
 // Recursively flattens objects in a schema's properties. This is used for

@@ -28,14 +28,12 @@ Table:
 
 custom:
   type: object
-  readOnly: true
   properties:
     width:
       type: integer
 
 defaults:
   type: object
-  readOnly: true
   properties:
     custom:
       $ref: '#/custom'
@@ -65,7 +63,6 @@ defaults:
 
 fieldConfig:
   type: object
-  readOnly: true
   properties:
     defaults:
       $ref: '#/defaults'
@@ -76,7 +73,6 @@ fieldConfig:
 
 options:
   type: object
-  readOnly: true
   properties:
     showHeader:
       type: boolean
