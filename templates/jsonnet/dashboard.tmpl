@@ -9,6 +9,18 @@
     [if {{$name}} != null then '{{$name}}']: {{$name}},
     {{- end}}
 
+    {{range $topName, $schema := .TopLevelObjectProperties}}
+    {{$topName}}(
+      {{- range $name, $iface := $schema.FlattenedNonArrayProperties}}
+      {{$name}}={{$iface.schema.DefaultJSON}},
+      {{- end}}
+    ):: self {}
+      {{range $name, $iface := $schema.FlattenedNonArrayProperties -}}
+      + { {{$topName}}+: {{range $i, $level := $iface.location -}}
+      { {{if eq (add 1 $i) (len $iface.location)}}{{$level}}: {{$name}}{{repeat " }" (len $iface.location)}}{{else}}{{$level}}+: {{end}}{{end}} }
+      {{end}},
+    {{end}}
+
     annotations: [],
     addAnnotation(
       {{- with index .Properties.annotations}}

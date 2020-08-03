@@ -36,13 +36,24 @@ func (s Schema) DefaultJSON() string {
 	return string(b)
 }
 
-// Returns all top-level properties of a schema object that are not an array or
-// object. These are intended to be used as function arguments for the object's
-// constructor.
+// Returns all top-level properties that are not an array or object. These are
+// intended to be used as function arguments for the object's constructor.
 func (s Schema) TopLevelSingleValProperties() map[string]*Schema {
 	p := map[string]*Schema{}
 	for n, s := range s.Properties {
 		if s.Type != "array" && s.Type != "object" && !s.ReadOnly {
+			p[n] = s
+		}
+	}
+	return p
+}
+
+// Returns all top-level object properties. It's intended that these are
+// implmented as methods.
+func (s Schema) TopLevelObjectProperties() map[string]*Schema {
+	p := map[string]*Schema{}
+	for n, s := range s.Properties {
+		if s.Type == "object" && !s.ReadOnly {
 			p[n] = s
 		}
 	}
