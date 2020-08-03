@@ -70,6 +70,7 @@ func generate(l Language, s Spec) error {
 		tmpl, err := template.New(tmplFile).Funcs(
 			template.FuncMap{
 				"objectInflection": l.OjectInflection,
+				"singularize":      inflect.Singularize,
 				"add": func(x int, y int) int {
 					return x + y
 				},

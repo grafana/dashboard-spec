@@ -11,32 +11,31 @@
 
     {{range $topName, $schema := .TopLevelObjectProperties}}
     {{$topName}}(
-      {{- range $name, $iface := $schema.FlattenedNonArrayProperties}}
+      {{- range $name, $iface := $schema.ConstructableProperties}}
       {{$name}}={{$iface.schema.DefaultJSON}},
       {{- end}}
     ):: self {}
-      {{range $name, $iface := $schema.FlattenedNonArrayProperties -}}
+      {{range $name, $iface := $schema.ConstructableProperties -}}
       + { {{$topName}}+: {{range $i, $level := $iface.location -}}
       { {{if eq (add 1 $i) (len $iface.location)}}{{$level}}: {{$name}}{{repeat " }" (len $iface.location)}}{{else}}{{$level}}+: {{end}}{{end}} }
       {{end}},
     {{end}}
 
-    annotations: [],
-    addAnnotation(
-      {{- with index .Properties.annotations}}
-      {{- range $name, $schema := .Items.Properties}}
+    {{range $topName, $iface := .AppendableProperties}}
+    {{singularize (objectInflection (printf "add %s" $topName))}}(
+      {{- range $name, $schema := $iface.schema.Items.Properties}}
       {{$name}}={{$schema.DefaultJSON}},
       {{- end}}
+    ):: self {}
+      + {{range $i, $level := $iface.location -}}
+      { {{$level}}+: {{if eq (add 1 $i) (len $iface.location)}}[{
+        {{- range $name, $schema := $iface.schema.Items.Properties}}
+        {{$name}}: {{$name}},
+        {{- end}}
+      }]{{repeat " }" (len $iface.location) -}}
       {{- end}}
-    ):: self {
-      annotations+: [{
-        {{- with index .Properties.annotations}}
-        {{- range $name, $schema := .Items.Properties}}
-        [if {{$name}} != null then '{{$name}}']: {{$name}},
-        {{- end}}
-        {{- end}}
-      }],
-    },
+      {{- end}},
+    {{end}}
 
     panels: [],
     _nextPanel:: 2,

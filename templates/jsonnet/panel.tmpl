@@ -14,66 +14,32 @@
     {{- end}}
 
     {{range $topName, $schema := .TopLevelObjectProperties}}
-    {{$topName}}(
-      {{- range $name, $iface := $schema.FlattenedNonArrayProperties}}
+    {{objectInflection (printf "set %s" $topName)}}(
+      {{- range $name, $iface := $schema.ConstructableProperties}}
       {{$name}}={{$iface.schema.DefaultJSON}},
       {{- end}}
     ):: self {}
-      {{range $name, $iface := $schema.FlattenedNonArrayProperties -}}
+      {{range $name, $iface := $schema.ConstructableProperties -}}
       + { {{$topName}}+: {{range $i, $level := $iface.location -}}
       { {{if eq (add 1 $i) (len $iface.location)}}{{$level}}: {{$name}}{{repeat " }" (len $iface.location)}}{{else}}{{$level}}+: {{end}}{{end}} }
       {{end}},
     {{end}}
 
-
-    // fieldConfig: {
-    //   defaults: {
-    //     custom: {},
-    //     links: [],
-    //     mappings: [],
-    //     thresholds: {},
-    //   }
-    // },
-    // links: [],
-    // targets: [],
-
-    addDataLink(
-      {{- with index .Properties.fieldConfig.Properties.defaults.Properties.links}}
-      {{- range $name, $schema := .Items.Properties}}
+    {{range $topName, $iface := .AppendableProperties}}
+    {{singularize (objectInflection (printf "add %s" $topName))}}(
+      {{- range $name, $schema := $iface.schema.Items.Properties}}
       {{$name}}={{$schema.DefaultJSON}},
       {{- end}}
-      {{- end}}
-    ):: self {
-      links+: [{
-        {{- with index .Properties.fieldConfig.Properties.defaults.Properties.links}}
-        fieldConfig+: {
-          defaults+: {
-            links+: [{
-              {{- range $name, $schema := .Items.Properties}}
-              {{$name}}: {{$name}},
-              {{- end}}
-            }],
-          }
-        },
-        {{- end}}
-      }],
-    },
-
-    addLink(
-      {{- with index .Properties.links}}
-      {{- range $name, $schema := .Items.Properties}}
-      {{$name}}={{$schema.DefaultJSON}},
-      {{- end}}
-      {{- end}}
-    ):: self {
-      links+: [{
-        {{- with index .Properties.links}}
-        {{- range $name, $schema := .Items.Properties}}
+    ):: self {}
+      + {{range $i, $level := $iface.location -}}
+      { {{$level}}+: {{if eq (add 1 $i) (len $iface.location)}}[{
+        {{- range $name, $schema := $iface.schema.Items.Properties}}
         {{$name}}: {{$name}},
         {{- end}}
-        {{- end}}
-      }],
-    },
+      }]{{repeat " }" (len $iface.location) -}}
+      {{- end}}
+      {{- end}},
+    {{end}}
 
     _nextTarget:: 0,
     addTarget(target):: self {
