@@ -13,6 +13,47 @@
           "title"
         ],
         "properties": {
+          "annotations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "builtIn": {
+                  "type": "integer",
+                  "default": 0,
+                  "readOnly": true
+                },
+                "datasource": {
+                  "type": "string",
+                  "default": "default"
+                },
+                "enable": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "hide": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "iconColor": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "rawQuery": {
+                  "type": "string"
+                },
+                "showIn": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
+            }
+          },
+          "description": {
+            "type": "string"
+          },
           "editable": {
             "type": "boolean",
             "default": true
@@ -25,22 +66,15 @@
             "type": "integer",
             "readOnly": true
           },
-          "links": {
+          "panels": {
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "targetBlank": {
-                  "type": "boolean"
-                },
-                "title": {
-                  "type": "string"
-                },
-                "url": {
-                  "type": "string"
-                }
-              }
-            }
+              "type": "object"
+            },
+            "readOnly": true
+          },
+          "refresh": {
+            "type": "string"
           },
           "schemaVersion": {
             "type": "integer",
@@ -54,7 +88,20 @@
             "type": "array",
             "items": {
               "type": "string"
-            }
+            },
+            "default": []
+          },
+          "templating": {
+            "type": "object",
+            "properties": {
+              "list": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            },
+            "readOnly": true
           },
           "time": {
             "type": "object",
@@ -67,6 +114,10 @@
                 "type": "string",
                 "default": "now"
               }
+            },
+            "default": {
+              "from": "now-6h",
+              "to": "now"
             }
           },
           "timepicker": {
@@ -88,11 +139,29 @@
                   "2h",
                   "1d"
                 ]
+              },
+              "time_options": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": [
+                  "5m",
+                  "15m",
+                  "1h",
+                  "6h",
+                  "12h",
+                  "24h",
+                  "2d",
+                  "7d",
+                  "30d"
+                ]
               }
             }
           },
           "timezone": {
-            "type": "string"
+            "type": "string",
+            "default": "browser"
           },
           "title": {
             "type": "string"
@@ -134,7 +203,8 @@
                           "type": "object",
                           "properties": {
                             "targetBlank": {
-                              "type": "boolean"
+                              "type": "boolean",
+                              "default": true
                             },
                             "title": {
                               "type": "string"
@@ -183,25 +253,22 @@
                         "default": 0
                       },
                       "thresholds": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "mode": {
-                              "type": "string",
-                              "default": "absolute"
-                            },
-                            "steps": {
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "color": {
-                                    "type": "string"
-                                  },
-                                  "value": {
-                                    "type": "integer"
-                                  }
+                        "type": "object",
+                        "properties": {
+                          "mode": {
+                            "type": "string",
+                            "default": "absolute"
+                          },
+                          "steps": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "color": {
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "type": "integer"
                                 }
                               }
                             }
@@ -264,13 +331,16 @@
                   },
                   "x": {
                     "type": "integer",
+                    "default": 0,
                     "description": "Panel x position."
                   },
                   "y": {
                     "type": "integer",
+                    "default": 0,
                     "description": "Panel y position."
                   }
-                }
+                },
+                "default": {}
               },
               "links": {
                 "type": "array",
@@ -278,7 +348,8 @@
                   "type": "object",
                   "properties": {
                     "targetBlank": {
-                      "type": "boolean"
+                      "type": "boolean",
+                      "default": true
                     },
                     "title": {
                       "type": "string"
@@ -336,7 +407,8 @@
               },
               "type": {
                 "type": "string",
-                "default": "gauge"
+                "default": "gauge",
+                "readOnly": true
               }
             }
           },
@@ -346,23 +418,12 @@
               "title"
             ],
             "properties": {
-              "type": {
-                "type": "string",
-                "default": "stat"
-              },
-              "title": {
-                "type": "string"
-              },
-              "description": {
-                "type": "string"
-              },
               "datasource": {
                 "type": "string",
                 "default": "default"
               },
-              "transparent": {
-                "type": "boolean",
-                "default": false
+              "description": {
+                "type": "string"
               },
               "fieldConfig": {
                 "type": "object",
@@ -376,7 +437,8 @@
                           "type": "object",
                           "properties": {
                             "targetBlank": {
-                              "type": "boolean"
+                              "type": "boolean",
+                              "default": true
                             },
                             "title": {
                               "type": "string"
@@ -425,25 +487,22 @@
                         "default": 0
                       },
                       "thresholds": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "mode": {
-                              "type": "string",
-                              "default": "absolute"
-                            },
-                            "steps": {
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "color": {
-                                    "type": "string"
-                                  },
-                                  "value": {
-                                    "type": "integer"
-                                  }
+                        "type": "object",
+                        "properties": {
+                          "mode": {
+                            "type": "string",
+                            "default": "absolute"
+                          },
+                          "steps": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "color": {
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "type": "integer"
                                 }
                               }
                             }
@@ -491,6 +550,50 @@
                   }
                 }
               },
+              "gridPos": {
+                "type": "object",
+                "properties": {
+                  "h": {
+                    "type": "integer",
+                    "default": 4,
+                    "description": "Panel height."
+                  },
+                  "w": {
+                    "type": "integer",
+                    "default": 6,
+                    "description": "Panel width."
+                  },
+                  "x": {
+                    "type": "integer",
+                    "default": 0,
+                    "description": "Panel x position."
+                  },
+                  "y": {
+                    "type": "integer",
+                    "default": 0,
+                    "description": "Panel y position."
+                  }
+                },
+                "default": {}
+              },
+              "links": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "targetBlank": {
+                      "type": "boolean",
+                      "default": true
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
               "options": {
                 "type": "object",
                 "properties": {
@@ -529,45 +632,17 @@
                   }
                 }
               },
-              "links": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "targetBlank": {
-                      "type": "boolean"
-                    },
-                    "title": {
-                      "type": "string"
-                    },
-                    "url": {
-                      "type": "string"
-                    }
-                  }
-                }
+              "title": {
+                "type": "string"
               },
-              "gridPos": {
-                "type": "object",
-                "properties": {
-                  "h": {
-                    "type": "integer",
-                    "default": 4,
-                    "description": "Panel height."
-                  },
-                  "w": {
-                    "type": "integer",
-                    "default": 6,
-                    "description": "Panel width."
-                  },
-                  "x": {
-                    "type": "integer",
-                    "description": "Panel x position."
-                  },
-                  "y": {
-                    "type": "integer",
-                    "description": "Panel y position."
-                  }
-                }
+              "transparent": {
+                "type": "boolean",
+                "default": false
+              },
+              "type": {
+                "type": "string",
+                "default": "stat",
+                "readOnly": true
               }
             }
           },
@@ -607,7 +682,8 @@
                           "type": "object",
                           "properties": {
                             "targetBlank": {
-                              "type": "boolean"
+                              "type": "boolean",
+                              "default": true
                             },
                             "title": {
                               "type": "string"
@@ -659,25 +735,22 @@
                         "type": "string"
                       },
                       "thresholds": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "mode": {
-                              "type": "string",
-                              "default": "absolute"
-                            },
-                            "steps": {
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "color": {
-                                    "type": "string"
-                                  },
-                                  "value": {
-                                    "type": "integer"
-                                  }
+                        "type": "object",
+                        "properties": {
+                          "mode": {
+                            "type": "string",
+                            "default": "absolute"
+                          },
+                          "steps": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "color": {
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "type": "integer"
                                 }
                               }
                             }
@@ -725,6 +798,24 @@
                   }
                 }
               },
+              "links": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "targetBlank": {
+                      "type": "boolean",
+                      "default": true
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
               "options": {
                 "type": "object",
                 "properties": {
@@ -743,7 +834,8 @@
               },
               "type": {
                 "type": "string",
-                "default": "table"
+                "default": "table",
+                "readOnly": true
               }
             }
           }
