@@ -41,6 +41,8 @@ Dashboard:
       properties:
         list:
           type: array
+          items:
+            type: object
       readOnly: true
     time:
       type: object

@@ -11,8 +11,10 @@ gridPos:
       description: Panel width.
     x:
       type: integer
+      default: 0
       description: Panel x position.
     y:
       type: integer
+      default: 0
       description: Panel y position.
   default: {}
