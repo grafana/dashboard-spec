@@ -42,7 +42,7 @@ modeling.
 
 ### [bundle/](./bundle)
 
-Single file JSON specs generated from the YAML in [specs/](./specs). This is
+Single-file JSON specs generated from the YAML in [specs/](./specs). This is
 what should be consumed by OpenAPI tooling like code generators.
 
 ### [templates/](./templates)
@@ -77,3 +77,14 @@ for panels.
 
 If a property is `readOnly` and also has default, set the default as a static
 value on the object.
+
+## Code Generator
+
+The code generator is the Go program in this repository. Currently only
+supported is Jsonnet for spec 7.0. Run it with:
+
+```
+go run main.go spec.go 7.0 jsonnet
+```
+
+This will produce the generated files in `_gen/7.0/jsonnet/`.
