@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"log"
+	"sort"
 )
 
 // OpenAPI 3.0 spec document.
@@ -115,5 +116,6 @@ func flatten(s *Schema, filter func(*Schema) bool) (ms []MappedSchema) {
 		}
 	}
 	flatten(s, []string{})
+	sort.SliceStable(ms, func(i, j int) bool { return ms[i].Name < ms[j].Name })
 	return ms
 }
