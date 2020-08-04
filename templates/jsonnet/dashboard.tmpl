@@ -1,46 +1,11 @@
 {
-  new(
-    {{- range $name, $schema := .TopLevelSingleValProperties}}
-    {{$name}}={{$schema.DefaultJSON}},
-    {{- end}}
-  ):: {
+  {{- template "topLevelSingleValProperties" .}}
 
-    {{- range $name, $schema := .TopLevelSingleValProperties}}
-    [if {{$name}} != null then '{{$name}}']: {{$name}},
-    {{- end}}
+    {{- template "readOnlyWithDefaultProperties" .}}
 
-    {{- range $name, $iface := .ReadOnlyWithDefaultProperties}}
-    {{range $i, $level := $iface.location -}}
-    {{if eq (add 1 $i) (len $iface.location)}}{{$level}}: {{$iface.schema.DefaultJSON}}{{repeat " }" (subtract (len $iface.location) 1)}}{{else}}{{$level}}+: { {{end}}{{end}},
-    {{- end}}
+    {{- template "TopLevelObjectProperties" .}}
 
-    {{range $topName, $schema := .TopLevelObjectProperties}}
-    {{objectInflection (printf "set %s" $topName)}}(
-      {{- range $name, $iface := $schema.ConstructableProperties}}
-      {{$name}}={{$iface.schema.DefaultJSON}},
-      {{- end}}
-    ):: self {}
-      {{range $name, $iface := $schema.ConstructableProperties -}}
-      + { {{$topName}}+: {{range $i, $level := $iface.location -}}
-      { {{if eq (add 1 $i) (len $iface.location)}}{{$level}}: {{$name}}{{repeat " }" (len $iface.location)}}{{else}}{{$level}}+: {{end}}{{end}} }
-      {{end}},
-    {{end}}
-
-    {{range $topName, $iface := .AppendableProperties}}
-    {{singularize (objectInflection (printf "add %s" $topName))}}(
-      {{- range $name, $schema := $iface.schema.Items.Properties}}
-      {{$name}}={{$schema.DefaultJSON}},
-      {{- end}}
-    ):: self {}
-      + {{range $i, $level := $iface.location -}}
-      { {{$level}}+: {{if eq (add 1 $i) (len $iface.location)}}[{
-        {{- range $name, $schema := $iface.schema.Items.Properties}}
-        {{$name}}: {{$name}},
-        {{- end}}
-      }]{{repeat " }" (len $iface.location) -}}
-      {{- end}}
-      {{- end}},
-    {{end}}
+    {{- template "AppendableProperties" .}}
 
     panels: [],
     _nextPanel:: 2,

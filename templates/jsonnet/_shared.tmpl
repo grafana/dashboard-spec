@@ -1,0 +1,57 @@
+{{- define "topLevelSingleValProperties"}}
+  new(
+    {{- range $name, $schema := .TopLevelSingleValProperties}}
+    {{$name}}={{$schema.DefaultJSON}},
+    {{- end}}
+  ):: {
+    {{- range $name, $schema := .TopLevelSingleValProperties}}
+    [if {{$name}} != null then '{{$name}}']: {{$name}},
+    {{- end}}
+{{- end}}
+
+{{- define "readOnlyWithDefaultProperties"}}
+    {{- range $name, $iface := .ReadOnlyWithDefaultProperties}}
+    {{range $i, $level := $iface.location -}}
+    {{if eq (add 1 $i) (len $iface.location)}}{{$level}}: {{$iface.schema.DefaultJSON}}{{repeat " }" (subtract (len $iface.location) 1)}}{{else}}{{$level}}+: { {{end}}{{end}},
+    {{- end}}
+{{- end}}
+
+{{- define "TopLevelObjectProperties"}}
+    {{range $topName, $schema := .TopLevelObjectProperties}}
+    {{if $schema.Title -}}
+    {{objectInflection (printf "set %s" $schema.Title)}}(
+    {{- else}}
+    {{objectInflection (printf "set %s" $topName)}}(
+    {{- end}}
+      {{- range $name, $iface := $schema.ConstructableProperties}}
+      {{$name}}={{$iface.schema.DefaultJSON}},
+      {{- end}}
+    ):: self {}
+      {{range $name, $iface := $schema.ConstructableProperties -}}
+      + { {{$topName}}+: {{range $i, $level := $iface.location -}}
+      { {{if eq (add 1 $i) (len $iface.location)}}{{$level}}: {{$name}}{{repeat " }" (len $iface.location)}}{{else}}{{$level}}+: {{end}}{{end}} }
+      {{end}},
+    {{end}}
+{{- end}}
+
+{{- define "AppendableProperties"}}
+    {{range $topName, $iface := .AppendableProperties}}
+    {{if $iface.schema.Title -}}
+    {{- singularize (objectInflection (printf "add %s" $iface.schema.Title))}}(
+    {{- else}}
+    {{- singularize (objectInflection (printf "add %s" $topName))}}(
+    {{- end}}
+      {{- range $name, $schema := $iface.schema.Items.Properties}}
+      {{$name}}={{$schema.DefaultJSON}},
+      {{- end}}
+    ):: self {}
+      + {{range $i, $level := $iface.location -}}
+      { {{$level}}+: {{if eq (add 1 $i) (len $iface.location)}}[{
+        {{- range $name, $schema := $iface.schema.Items.Properties}}
+        {{$name}}: {{$name}},
+        {{- end}}
+      }]{{repeat " }" (len $iface.location) -}}
+      {{- end}}
+      {{- end}},
+    {{end}}
+{{- end}}

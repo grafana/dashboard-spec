@@ -1,11 +1,4 @@
 {
-  new(
-    {{- range $name, $schema := .TopLevelSingleValProperties}}
-    {{$name}}={{$schema.DefaultJSON}},
-    {{- end}}
-  ):: {
-    {{- range $name, $schema := .TopLevelSingleValProperties}}
-    {{$name}}: {{$name}},
-    {{- end}}
+  {{- template "topLevelSingleValProperties" .}}
   },
 }

@@ -58,6 +58,8 @@ Each language must implment the following templates:
 * `panel.tmpl`: for generating panel objects and files.
 * `target.tmpl`: for generating target objects and files.
 * `template.tmpl`: for generating template objects and files.
+* `_shared.tmpl`: shared template file available to all other templates. This is
+  useful for defining reusable template code for others to share.
 
 #### Style Guide for Templates
 

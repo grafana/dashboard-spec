@@ -81,7 +81,10 @@ func generate(l Language, s Spec) error {
 					return strings.Repeat(s, n)
 				},
 			},
-		).ParseFiles(path.Join("templates", l.Directory, tmplFile))
+		).ParseFiles(
+			path.Join("templates", l.Directory, tmplFile),
+			path.Join("templates", l.Directory, "_shared.tmpl"),
+		)
 		if err != nil {
 			return err
 		}
