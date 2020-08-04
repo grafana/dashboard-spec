@@ -24,21 +24,12 @@ type Language struct {
 }
 
 func main() {
-	const lvar = "GDS_GEN_LANG"
-	lang, exists := os.LookupEnv(lvar)
-	if !exists {
-		log.Fatalf("Set `%s` environment variable to indicate which language you'd like to generate models for.", lvar)
-	}
-	l := map[string]Language{
-		"jsonnet": {
-			Directory:          "jsonnet",
-			FileExtension:      "libsonnet",
-			FileNameInflection: inflect.CamelizeDownFirst,
-			OjectInflection:    inflect.CamelizeDownFirst,
-		},
-	}[lang]
-	s := loadSpec("bundle/7.0/spec.json")
-	err := generate(l, s)
+	args := os.Args[1:]
+	specVersion, language := args[0], args[1]
+	err := generate(
+		loadSpec(path.Join("bundle", specVersion, "spec.json")),
+		loadLanguage(language),
+	)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -55,7 +46,23 @@ func loadSpec(file string) (s Spec) {
 	return
 }
 
-func generate(l Language, s Spec) error {
+func loadLanguage(l string) Language {
+	languages := map[string]Language{
+		"jsonnet": {
+			Directory:          "jsonnet",
+			FileExtension:      "libsonnet",
+			FileNameInflection: inflect.CamelizeDownFirst,
+			OjectInflection:    inflect.CamelizeDownFirst,
+		},
+	}
+	lang, ok := languages[l]
+	if !ok {
+		log.Fatalf("%q is not a supported language.", l)
+	}
+	return lang
+}
+
+func generate(s Spec, l Language) error {
 
 	// Create directories.
 	dir := path.Join("_gen", s.Info.Version, l.Directory)
