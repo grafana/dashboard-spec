@@ -5,6 +5,7 @@ threshold:
       type: string
       default: absolute
     steps:
+      title: Threshold Steps
       type: array
       items:
         type: object

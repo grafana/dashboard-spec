@@ -13,6 +13,7 @@ Stat:
     gridPos:
       $ref: 'gridPos.yml#/gridPos'
     links:
+      title: Panel Links
       type: array
       items:
         $ref: 'link.yml#/link'
@@ -32,6 +33,7 @@ defaults:
   type: object
   properties:
     links:
+      title: Data Links
       type: array
       items:
         $ref: 'link.yml#/link'

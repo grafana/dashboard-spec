@@ -15,7 +15,11 @@
     {{- end}}
 
     {{range $topName, $schema := .TopLevelObjectProperties}}
+    {{if $iface.schema.Title -}}
+    {{objectInflection (printf "set %s" $iface.schema.Title)}}(
+    {{- else}}
     {{objectInflection (printf "set %s" $topName)}}(
+    {{- end}}
       {{- range $name, $iface := $schema.ConstructableProperties}}
       {{$name}}={{$iface.schema.DefaultJSON}},
       {{- end}}
@@ -27,7 +31,11 @@
     {{end}}
 
     {{range $topName, $iface := .AppendableProperties}}
-    {{singularize (objectInflection (printf "add %s" $topName))}}(
+    {{if $iface.schema.Title -}}
+    {{- singularize (objectInflection (printf "add %s" $iface.schema.Title))}}(
+    {{- else}}
+    {{- singularize (objectInflection (printf "add %s" $topName))}}(
+    {{- end}}
       {{- range $name, $schema := $iface.schema.Items.Properties}}
       {{$name}}={{$schema.DefaultJSON}},
       {{- end}}

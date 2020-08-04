@@ -11,6 +11,7 @@ Table:
     fieldConfig:
       $ref: '#/fieldConfig'
     links:
+      title: Panel Links
       type: array
       items:
         $ref: 'link.yml#/link'
@@ -40,6 +41,7 @@ defaults:
     displayName:
       type: string
     links:
+      title: Data Links
       type: array
       items:
         $ref: 'link.yml#/link'

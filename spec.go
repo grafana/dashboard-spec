@@ -19,6 +19,7 @@ type Spec struct {
 
 // OpenAPI 3.0 schema.
 type Schema struct {
+	Title       string
 	Default     interface{}
 	Description string
 	Items       *Schema
