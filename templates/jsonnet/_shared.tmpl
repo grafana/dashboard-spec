@@ -10,9 +10,9 @@
 {{- end}}
 
 {{- define "readOnlyWithDefaultProperties"}}
-    {{- range $name, $iface := .ReadOnlyWithDefaultProperties}}
-    {{range $i, $level := $iface.location -}}
-    {{if eq (add 1 $i) (len $iface.location)}}{{$level}}: {{$iface.schema.DefaultJSON}}{{repeat " }" (subtract (len $iface.location) 1)}}{{else}}{{$level}}+: { {{end}}{{end}},
+    {{- range $ms := .ReadOnlyWithDefaultProperties}}
+    {{range $i, $level := $ms.Location -}}
+    {{if eq (add 1 $i) (len $ms.Location)}}{{$level}}: {{$ms.Schema.DefaultJSON}}{{repeat " }" (subtract (len $ms.Location) 1)}}{{else}}{{$level}}+: { {{end}}{{end}},
     {{- end}}
 {{- end}}
 
@@ -23,34 +23,34 @@
     {{- else}}
     {{objectInflection (printf "set %s" $topName)}}(
     {{- end}}
-      {{- range $name, $iface := $schema.ConstructableProperties}}
-      {{$name}}={{$iface.schema.DefaultJSON}},
+      {{- range $ms := $schema.ConstructableProperties}}
+      {{$ms.Name}}={{$ms.Schema.DefaultJSON}},
       {{- end}}
     ):: self {}
-      {{range $name, $iface := $schema.ConstructableProperties -}}
-      + { {{$topName}}+: {{range $i, $level := $iface.location -}}
-      { {{if eq (add 1 $i) (len $iface.location)}}{{$level}}: {{$name}}{{repeat " }" (len $iface.location)}}{{else}}{{$level}}+: {{end}}{{end}} }
+      {{range $ms := $schema.ConstructableProperties -}}
+      + { {{$topName}}+: {{range $i, $level := $ms.Location -}}
+      { {{if eq (add 1 $i) (len $ms.Location)}}{{$level}}: {{$ms.Name}}{{repeat " }" (len $ms.Location)}}{{else}}{{$level}}+: {{end}}{{end}} }
       {{end}},
     {{end}}
 {{- end}}
 
 {{- define "AppendableProperties"}}
-    {{range $topName, $iface := .AppendableProperties}}
-    {{if $iface.schema.Title -}}
-    {{- singularize (objectInflection (printf "add %s" $iface.schema.Title))}}(
+    {{range $ms := .AppendableProperties}}
+    {{if $ms.Schema.Title -}}
+    {{- singularize (objectInflection (printf "add %s" $ms.Schema.Title))}}(
     {{- else}}
-    {{- singularize (objectInflection (printf "add %s" $topName))}}(
+    {{- singularize (objectInflection (printf "add %s" $ms.Name))}}(
     {{- end}}
-      {{- range $name, $schema := $iface.schema.Items.Properties}}
+      {{- range $name, $schema := $ms.Schema.Items.Properties}}
       {{$name}}={{$schema.DefaultJSON}},
       {{- end}}
     ):: self {}
-      + {{range $i, $level := $iface.location -}}
-      { {{$level}}+: {{if eq (add 1 $i) (len $iface.location)}}[{
-        {{- range $name, $schema := $iface.schema.Items.Properties}}
+      + {{range $i, $level := $ms.Location -}}
+      { {{$level}}+: {{if eq (add 1 $i) (len $ms.Location)}}[{
+        {{- range $name, $schema := $ms.Schema.Items.Properties}}
         {{$name}}: {{$name}},
         {{- end}}
-      }]{{repeat " }" (len $iface.location) -}}
+      }]{{repeat " }" (len $ms.Location) -}}
       {{- end}}
       {{- end}},
     {{end}}
