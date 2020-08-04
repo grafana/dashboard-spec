@@ -65,11 +65,37 @@ func (s Schema) TopLevelObjectProperties() map[string]*Schema {
 // Returns all properties that are readOnly and have a default property. It's
 // intended that these are set, but not explicitly configurable.
 func (s Schema) ReadOnlyWithDefaultProperties() map[string]map[string]interface{} {
+	return flatten(&s, func(s *Schema) bool {
+		return s.ReadOnly && s.Default != nil
+	})
+}
+
+// Returns nested objects and arrays that should be part of a constructor
+// method. This includes all objects and flat arrays. This is used to simplify
+// object interfaces on those with many levels of nesting.
+func (s Schema) ConstructableProperties() map[string]map[string]interface{} {
+	return flatten(&s, func(s *Schema) bool {
+		return !s.ReadOnly || s.Type != "array" && s.Items.Type != "object"
+	})
+}
+
+// Returns nested arrays of objects. This is used to create methods for
+// constructing those objects and appending them to an array.
+func (s Schema) AppendableProperties() map[string]map[string]interface{} {
+	return flatten(&s, func(s *Schema) bool {
+		return !s.ReadOnly && s.Type == "array" && s.Items.Type == "object"
+	})
+}
+
+// Recursively flattens nested properties.
+// Returns a nested map to model the structure. Location is set so the schema
+// can get pieced back together.
+func flatten(s *Schema, filter func(*Schema) bool) map[string]map[string]interface{} {
 	p := map[string]map[string]interface{}{}
 	var flatten func(*Schema, []string)
 	flatten = func(s *Schema, locationPrefix []string) {
 		for n, s := range s.Properties {
-			if s.ReadOnly && s.Default != nil {
+			if filter(s) {
 				p[n] = map[string]interface{}{
 					"location": append(locationPrefix, n),
 					"schema":   s,
@@ -79,55 +105,6 @@ func (s Schema) ReadOnlyWithDefaultProperties() map[string]map[string]interface{
 			}
 		}
 	}
-	flatten(&s, []string{})
-	return p
-}
-
-// Returns nested objects and arrays that should be part of a constructor
-// method. This includes all objects and flat arrays. This is used to simplify
-// object interfaces on those with many levels of nesting.
-func (s Schema) ConstructableProperties() map[string]map[string]interface{} {
-	p := map[string]map[string]interface{}{}
-	var flatten func(*Schema, []string)
-	flatten = func(s *Schema, locationPrefix []string) {
-		for n, s := range s.Properties {
-			if s.ReadOnly || s.Type == "array" && s.Items.Type == "object" {
-				continue
-			}
-			if s.Type == "object" {
-				flatten(s, append(locationPrefix, n))
-			} else {
-				p[n] = map[string]interface{}{
-					"location": append(locationPrefix, n),
-					"schema":   s,
-				}
-			}
-		}
-	}
-	flatten(&s, []string{})
-	return p
-}
-
-// Returns nested arrays of objects. This is used to create methods for
-// constructing those objects and appending them to an array.
-func (s Schema) AppendableProperties() map[string]map[string]interface{} {
-	p := map[string]map[string]interface{}{}
-	var flatten func(*Schema, []string)
-	flatten = func(s *Schema, locationPrefix []string) {
-		for n, s := range s.Properties {
-			if s.ReadOnly {
-				continue
-			}
-			if s.Type == "object" {
-				flatten(s, append(locationPrefix, n))
-			} else if s.Type == "array" && s.Items.Type == "object" {
-				p[n] = map[string]interface{}{
-					"location": append(locationPrefix, n),
-					"schema":   s,
-				}
-			}
-		}
-	}
-	flatten(&s, []string{})
+	flatten(s, []string{})
 	return p
 }
