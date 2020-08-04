@@ -198,6 +198,7 @@
                     "type": "object",
                     "properties": {
                       "links": {
+                        "title": "Data Links",
                         "type": "array",
                         "items": {
                           "type": "object",
@@ -260,6 +261,7 @@
                             "default": "absolute"
                           },
                           "steps": {
+                            "title": "Threshold Steps",
                             "type": "array",
                             "items": {
                               "type": "object",
@@ -343,6 +345,7 @@
                 "default": {}
               },
               "links": {
+                "title": "Panel Links",
                 "type": "array",
                 "items": {
                   "type": "object",
@@ -432,6 +435,7 @@
                     "type": "object",
                     "properties": {
                       "links": {
+                        "title": "Data Links",
                         "type": "array",
                         "items": {
                           "type": "object",
@@ -494,6 +498,7 @@
                             "default": "absolute"
                           },
                           "steps": {
+                            "title": "Threshold Steps",
                             "type": "array",
                             "items": {
                               "type": "object",
@@ -577,6 +582,7 @@
                 "default": {}
               },
               "links": {
+                "title": "Panel Links",
                 "type": "array",
                 "items": {
                   "type": "object",
@@ -677,6 +683,7 @@
                         "type": "string"
                       },
                       "links": {
+                        "title": "Data Links",
                         "type": "array",
                         "items": {
                           "type": "object",
@@ -742,6 +749,7 @@
                             "default": "absolute"
                           },
                           "steps": {
+                            "title": "Threshold Steps",
                             "type": "array",
                             "items": {
                               "type": "object",
@@ -799,6 +807,7 @@
                 }
               },
               "links": {
+                "title": "Panel Links",
                 "type": "array",
                 "items": {
                   "type": "object",
