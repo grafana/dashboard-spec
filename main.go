@@ -27,7 +27,7 @@ func main() {
 	args := os.Args[1:]
 	specVersion, language := args[0], args[1]
 	err := generate(
-		loadSpec(path.Join("bundle", specVersion, "spec.json")),
+		loadSpec(path.Join("_gen", specVersion, "spec.json")),
 		loadLanguage(language),
 	)
 	if err != nil {
