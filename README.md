@@ -40,11 +40,6 @@ Most objects are either a "panel", "datasource", or "template". Each object's
 definition should live in its respective directory of the spec version it's
 modeling.
 
-### [bundle/](./bundle)
-
-Single-file JSON specs generated from the YAML in [specs/](./specs). This is
-what should be consumed by OpenAPI tooling like code generators.
-
 ### [templates/](./templates)
 
 Templates for the code generator. Child directories are named after the language
