@@ -8,6 +8,18 @@ Specification](https://github.com/OAI/OpenAPI-Specification).
 This can used for generating models in a variety of programming languages. The
 models facilitate writing dashboards as code.
 
+## Generated Code
+
+The generated code lives in this repository's [\_gen](https://github.com/trotttrotttrott/dashboard-spec/tree/_gen) branch.
+
+### Spec Documents
+
+* [7.0/spec.json](https://github.com/trotttrotttrott/dashboard-spec/blob/_gen/_gen/7.0/spec.json)
+
+### Libraries
+
+* [7.0/jsonnet](https://github.com/trotttrotttrott/dashboard-spec/tree/_gen/_gen/7.0/jsonnet)
+
 ## Repo Layout
 
 ### [specs/](./specs)
@@ -75,11 +87,15 @@ value on the object.
 
 ## Code Generator
 
-The code generator is the Go program in this repository. Currently only
-supported is Jsonnet for spec 7.0. Run it with:
+The code generator is a Go program in this repository. Currently only supported
+is Jsonnet for spec 7.0. Use it locally with:
 
 ```
-go run main.go spec.go 7.0 jsonnet
+go run . 7.0 jsonnet
 ```
 
-This will produce the generated files in `_gen/7.0/jsonnet/`.
+This will produce the generated files in `_gen/7.0/jsonnet/`. Generated files
+are updated and committed to the
+[\_gen](https://github.com/trotttrotttrott/dashboard-spec/tree/_gen) branch
+after every commit to master. See the [Generated Code](#generated-code) section
+for direct links.
