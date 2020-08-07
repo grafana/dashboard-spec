@@ -16,7 +16,7 @@
     {{- end}}
 {{- end}}
 
-{{- define "TopLevelObjectProperties"}}
+{{- define "topLevelObjectProperties"}}
     {{range $topName, $schema := .TopLevelObjectProperties}}
     {{if $schema.Title -}}
     {{objectInflection (printf "set %s" $schema.Title)}}(
@@ -34,7 +34,7 @@
     {{end}}
 {{- end}}
 
-{{- define "AppendableProperties"}}
+{{- define "appendableProperties"}}
     {{range $ms := .AppendableProperties}}
     {{if $ms.Schema.Title -}}
     {{- singularize (objectInflection (printf "add %s" $ms.Schema.Title))}}(
