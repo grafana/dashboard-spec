@@ -85,7 +85,7 @@ func (s Schema) ReadOnlyWithDefaultProperties() []MappedSchema {
 // object interfaces on those with many levels of nesting.
 func (s Schema) ConstructableProperties() []MappedSchema {
 	return flatten(&s, func(s *Schema) bool {
-		return !s.ReadOnly || s.Type != "array" && s.Items.Type != "object"
+		return !s.ReadOnly && s.Type != "array" && s.Type != "object"
 	})
 }
 
