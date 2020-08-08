@@ -48,6 +48,17 @@ func (s Schema) DefaultJSON() string {
 	return string(b)
 }
 
+// If title is set, it's assumed it carries more meaning than the property name
+// itself. And therefore more suitable for humans. This is useful for naming
+// arguments and functions.
+func (s Schema) HumanName(name string) string {
+	if s.Title != "" {
+		return s.Title
+	} else {
+		return name
+	}
+}
+
 // Returns all top-level properties that are not an array or object. These are
 // intended to be used as function arguments for the object's constructor.
 func (s Schema) TopLevelSingleValProperties() map[string]*Schema {

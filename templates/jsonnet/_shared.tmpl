@@ -1,11 +1,11 @@
 {{- define "topLevelSingleValProperties"}}
   new(
     {{- range $name, $schema := .TopLevelSingleValProperties}}
-    {{$name}}={{$schema.DefaultJSON}},
+    {{objectInflection ($schema.HumanName $name)}}={{$schema.DefaultJSON}},
     {{- end}}
   ):: {
     {{- range $name, $schema := .TopLevelSingleValProperties}}
-    [if {{$name}} != null then '{{$name}}']: {{$name}},
+    [if {{$name}} != null then '{{$name}}']: {{objectInflection ($schema.HumanName $name)}},
     {{- end}}
 {{- end}}
 
@@ -18,37 +18,29 @@
 
 {{- define "topLevelObjectProperties"}}
     {{range $topName, $schema := .TopLevelObjectProperties}}
-    {{if $schema.Title -}}
-    {{objectInflection (printf "set %s" $schema.Title)}}(
-    {{- else}}
-    {{objectInflection (printf "set %s" $topName)}}(
-    {{- end}}
+    {{objectInflection (printf "set %s" ($schema.HumanName $topName))}}(
       {{- range $ms := $schema.ConstructableProperties}}
-      {{$ms.Name}}={{$ms.Schema.DefaultJSON}},
+      {{objectInflection ($ms.Schema.HumanName $ms.Name)}}={{$ms.Schema.DefaultJSON}},
       {{- end}}
     ):: self {}
       {{range $ms := $schema.ConstructableProperties -}}
       + { {{$topName}}+: {{range $i, $level := $ms.Location -}}
-      { {{if eq (add 1 $i) (len $ms.Location)}}{{$level}}: {{$ms.Name}}{{repeat " }" (len $ms.Location)}}{{else}}{{$level}}+: {{end}}{{end}} }
+      { {{if eq (add 1 $i) (len $ms.Location)}}{{$level}}: {{objectInflection ($ms.Schema.HumanName $ms.Name)}}{{repeat " }" (len $ms.Location)}}{{else}}{{$level}}+: {{end}}{{end}} }
       {{end}},
     {{end}}
 {{- end}}
 
 {{- define "appendableProperties"}}
     {{range $ms := .AppendableProperties}}
-    {{if $ms.Schema.Title -}}
-    {{- singularize (objectInflection (printf "add %s" $ms.Schema.Title))}}(
-    {{- else}}
-    {{- singularize (objectInflection (printf "add %s" $ms.Name))}}(
-    {{- end}}
+    {{singularize (objectInflection (printf "add %s" ($ms.Schema.HumanName $ms.Name)))}}(
       {{- range $name, $schema := $ms.Schema.Items.Properties}}
-      {{$name}}={{$schema.DefaultJSON}},
+      {{objectInflection ($schema.HumanName $name)}}={{$schema.DefaultJSON}},
       {{- end}}
     ):: self {}
       + {{range $i, $level := $ms.Location -}}
       { {{$level}}+: {{if eq (add 1 $i) (len $ms.Location)}}[{
         {{- range $name, $schema := $ms.Schema.Items.Properties}}
-        {{$name}}: {{$name}},
+        {{$name}}: {{objectInflection ($schema.HumanName $name)}},
         {{- end}}
       }]{{repeat " }" (len $ms.Location) -}}
       {{- end}}
