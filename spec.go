@@ -53,7 +53,7 @@ func (s Schema) DefaultJSON() string {
 func (s Schema) TopLevelSingleValProperties() map[string]*Schema {
 	p := map[string]*Schema{}
 	for n, s := range s.Properties {
-		if s.Type != "array" && s.Type != "object" && !s.ReadOnly {
+		if !s.ReadOnly && s.Type != "array" && s.Type != "object" {
 			p[n] = s
 		}
 	}
@@ -65,7 +65,7 @@ func (s Schema) TopLevelSingleValProperties() map[string]*Schema {
 func (s Schema) TopLevelObjectProperties() map[string]*Schema {
 	p := map[string]*Schema{}
 	for n, s := range s.Properties {
-		if s.Type == "object" && !s.ReadOnly {
+		if !s.ReadOnly && s.Type == "object" {
 			p[n] = s
 		}
 	}
