@@ -2,6 +2,7 @@ threshold:
   type: object
   properties:
     mode:
+      title: Threshold Mode
       type: string
       default: absolute
     steps:
