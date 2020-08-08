@@ -61,7 +61,7 @@ func (s Schema) TopLevelSingleValProperties() map[string]*Schema {
 }
 
 // Returns all top-level object properties. It's intended that these are
-// implmented as methods.
+// implmented as setter methods.
 func (s Schema) TopLevelObjectProperties() map[string]*Schema {
 	p := map[string]*Schema{}
 	for n, s := range s.Properties {
@@ -98,8 +98,6 @@ func (s Schema) AppendableProperties() []MappedSchema {
 }
 
 // Recursively flattens nested properties.
-// Returns a nested map to model the structure. Location is set so the schema
-// can get pieced back together.
 func flatten(s *Schema, filter func(*Schema) bool) (ms []MappedSchema) {
 	var flatten func(*Schema, []string)
 	flatten = func(s *Schema, locationPrefix []string) {
