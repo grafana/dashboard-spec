@@ -23,6 +23,12 @@ var schemas = map[string]*Schema{
 		Type:     "string",
 		Default:  "default",
 	},
+	"topLevelArrayWithStringItems": {
+		Type: "array",
+		Items: &Schema{
+			Type: "string",
+		},
+	},
 	"topLevelArrayWithObjectItems": {
 		Type: "array",
 		Items: &Schema{
@@ -91,37 +97,21 @@ func TestHumanName(t *testing.T) {
 	}
 }
 
-func TestTopLevelSingleValProperties(t *testing.T) {
+func TestTopLevelSimpleProperties(t *testing.T) {
 	want := []string{
+		"topLevelArrayWithStringItems",
 		"topLevelString",
 		"topLevelStringWithTitle",
 	}
 	schema := Schema{
 		Properties: schemas,
 	}
-	props := schema.TopLevelSingleValProperties()
+	props := schema.TopLevelSimpleProperties()
 	var keys []string
 	for k := range props {
 		keys = append(keys, k)
 	}
 	sort.Strings(keys)
-	if !reflect.DeepEqual(want, keys) {
-		t.Errorf("Wanted: %v, got: %v.", want, keys)
-	}
-}
-
-func TestTopLevelObjectProperties(t *testing.T) {
-	want := []string{
-		"topLevelObject",
-	}
-	schema := Schema{
-		Properties: schemas,
-	}
-	props := schema.TopLevelObjectProperties()
-	var keys []string
-	for k := range props {
-		keys = append(keys, k)
-	}
 	if !reflect.DeepEqual(want, keys) {
 		t.Errorf("Wanted: %v, got: %v.", want, keys)
 	}
@@ -158,7 +148,24 @@ func TestReadOnlyWithDefaultProperties(t *testing.T) {
 	}
 }
 
-func TestConstructableProperties(t *testing.T) {
+func TestTopLevelObjectProperties(t *testing.T) {
+	want := []string{
+		"topLevelObject",
+	}
+	schema := Schema{
+		Properties: schemas,
+	}
+	props := schema.TopLevelObjectProperties()
+	var keys []string
+	for k := range props {
+		keys = append(keys, k)
+	}
+	if !reflect.DeepEqual(want, keys) {
+		t.Errorf("Wanted: %v, got: %v.", want, keys)
+	}
+}
+
+func TestNestedSimpleProperties(t *testing.T) {
 	want := []struct {
 		name     string
 		location []string
@@ -181,7 +188,7 @@ func TestConstructableProperties(t *testing.T) {
 		},
 	}
 	schema := schemas["topLevelObject"]
-	props := schema.ConstructableProperties()
+	props := schema.NestedSimpleProperties()
 	if len(want) != len(props) {
 		t.Errorf("Unexpected number of properties returned. Wanted: %d, got: %d.", len(want), len(props))
 	}
@@ -195,7 +202,7 @@ func TestConstructableProperties(t *testing.T) {
 	}
 }
 
-func TestAppendableProperties(t *testing.T) {
+func TestNestedComplexArrayProperties(t *testing.T) {
 	want := []struct {
 		name     string
 		location []string
@@ -212,7 +219,7 @@ func TestAppendableProperties(t *testing.T) {
 	schema := Schema{
 		Properties: schemas,
 	}
-	props := schema.AppendableProperties()
+	props := schema.NestedComplexArrayProperties()
 	if len(want) != len(props) {
 		t.Errorf("Unexpected number of properties returned. Wanted: %d, got: %d.", len(want), len(props))
 	}

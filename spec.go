@@ -32,14 +32,14 @@ type Schema struct {
 
 // Used for the purpose of flattening the properties of a schema. The location
 // field makes it possible to reconstruct later. This facilitates generating
-// setter methods for deeply nested objects.
+// setter/appender methods for deeply nested properties.
 type MappedSchema struct {
 	Name     string
 	Location []string
 	Schema   *Schema
 }
 
-// Return a schema's default property as JSON.
+// Return a schema's default value as JSON.
 func (s Schema) DefaultJSON() string {
 	b, err := json.Marshal(s.Default)
 	if err != nil {
@@ -59,20 +59,30 @@ func (s Schema) HumanName(name string) string {
 	}
 }
 
-// Returns all top-level properties that are not an array or object. These are
-// intended to be used as function arguments for the object's constructor.
-func (s Schema) TopLevelSingleValProperties() map[string]*Schema {
+// Returns all top-level properties except objects and arrays of objects. These
+// are intended to be used as arguments for the schema object's constructor.
+func (s Schema) TopLevelSimpleProperties() map[string]*Schema {
 	p := map[string]*Schema{}
 	for n, s := range s.Properties {
-		if !s.ReadOnly && s.Type != "array" && s.Type != "object" {
+		if !s.ReadOnly && s.Type != "object" &&
+			(s.Type != "array" || s.Type == "array" && s.Items.Type != "object") {
 			p[n] = s
 		}
 	}
 	return p
 }
 
-// Returns all top-level object properties. It's intended that these are
-// implmented as setter methods.
+// Returns all properties that are readOnly and have a default property. It's
+// intended that these are set, but not explicitly configurable. For example, a
+// panel's "type" field.
+func (s Schema) ReadOnlyWithDefaultProperties() []MappedSchema {
+	return flatten(&s, func(s *Schema) bool {
+		return s.ReadOnly && s.Default != nil
+	})
+}
+
+// Returns all top-level object properties. It's anticipated that these have
+// setter methods nested inside their parent schema object.
 func (s Schema) TopLevelObjectProperties() map[string]*Schema {
 	p := map[string]*Schema{}
 	for n, s := range s.Properties {
@@ -83,26 +93,20 @@ func (s Schema) TopLevelObjectProperties() map[string]*Schema {
 	return p
 }
 
-// Returns all properties that are readOnly and have a default property. It's
-// intended that these are set, but not explicitly configurable.
-func (s Schema) ReadOnlyWithDefaultProperties() []MappedSchema {
+// Returns all nested properties except arrays of objects. It's anticipated
+// that the parent schema object is a top-level object property and that the
+// properties returned here will be arguments in the parent's setter method.
+func (s Schema) NestedSimpleProperties() []MappedSchema {
 	return flatten(&s, func(s *Schema) bool {
-		return s.ReadOnly && s.Default != nil
+		return !s.ReadOnly && s.Type != "object" &&
+			(s.Type != "array" || s.Type == "array" && s.Items.Type != "object")
 	})
 }
 
-// Returns nested objects and arrays that should be part of a constructor
-// method. This includes all objects and flat arrays. This is used to simplify
-// object interfaces on those with many levels of nesting.
-func (s Schema) ConstructableProperties() []MappedSchema {
-	return flatten(&s, func(s *Schema) bool {
-		return !s.ReadOnly && s.Type != "object" && (s.Type != "array" || s.Type == "array" && s.Items.Type != "object")
-	})
-}
-
-// Returns nested arrays of objects. This is used to create methods for
-// constructing those objects and appending them to an array.
-func (s Schema) AppendableProperties() []MappedSchema {
+// Returns nested properties that are arrays of objects. It's anticipated that
+// these are used to create appender methods for constructing those objects and
+// appending them.
+func (s Schema) NestedComplexArrayProperties() []MappedSchema {
 	return flatten(&s, func(s *Schema) bool {
 		return !s.ReadOnly && s.Type == "array" && s.Items.Type == "object"
 	})
