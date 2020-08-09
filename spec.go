@@ -20,13 +20,14 @@ type Spec struct {
 
 // OpenAPI 3.0 schema.
 type Schema struct {
-	Title       string
+	AllOf       []*Schema
 	Default     interface{}
 	Description string
 	Items       *Schema
 	Properties  map[string]*Schema
 	ReadOnly    bool
 	Required    []string
+	Title       string
 	Type        string
 }
 
@@ -59,11 +60,25 @@ func (s Schema) HumanName(name string) string {
 	}
 }
 
+// Combined schemas from Properties and AllOf.
+func (s Schema) AllProperties() map[string]*Schema {
+	ap := s.Properties
+	if ap == nil {
+		ap = map[string]*Schema{}
+	}
+	for _, aos := range s.AllOf {
+		for n, subsc := range aos.Properties {
+			ap[n] = subsc
+		}
+	}
+	return ap
+}
+
 // Returns all top-level properties except objects and arrays of objects. These
 // are intended to be used as arguments for the schema object's constructor.
 func (s Schema) TopLevelSimpleProperties() map[string]*Schema {
 	p := map[string]*Schema{}
-	for n, s := range s.Properties {
+	for n, s := range s.AllProperties() {
 		if !s.ReadOnly && s.Type != "object" &&
 			(s.Type != "array" || s.Type == "array" && s.Items.Type != "object") {
 			p[n] = s
@@ -85,7 +100,7 @@ func (s Schema) ReadOnlyWithDefaultProperties() []FlatSchema {
 // setter methods nested inside their parent schema object.
 func (s Schema) TopLevelObjectProperties() map[string]*Schema {
 	p := map[string]*Schema{}
-	for n, s := range s.Properties {
+	for n, s := range s.AllProperties() {
 		if !s.ReadOnly && s.Type == "object" {
 			p[n] = s
 		}
@@ -116,7 +131,7 @@ func (s Schema) NestedComplexArrayProperties() []FlatSchema {
 func flatten(s *Schema, filter func(*Schema) bool) (fs []FlatSchema) {
 	var flatten func(*Schema, []string)
 	flatten = func(s *Schema, locationPrefix []string) {
-		for n, s := range s.Properties {
+		for n, s := range s.AllProperties() {
 			if filter(s) {
 				fs = append(fs, FlatSchema{
 					Name:     n,
