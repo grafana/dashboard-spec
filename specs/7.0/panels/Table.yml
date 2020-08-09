@@ -1,31 +1,16 @@
 Table:
-  type: object
-  required:
-    - title
-  properties:
-    datasource:
-      type: string
-      default: default
-    description:
-      type: string
-    fieldConfig:
-      $ref: '#/fieldConfig'
-    links:
-      title: Panel Links
-      type: array
-      items:
-        $ref: 'link.yml#/link'
-    options:
-      $ref: '#/options'
-    title:
-      type: string
-    transparent:
-      type: boolean
-      default: false
-    type:
-      type: string
-      default: 'table'
-      readOnly: true
+  allOf:
+    - $ref: 'panel.yml#/panel'
+    - type: object
+      properties:
+        fieldConfig:
+          $ref: '#/fieldConfig'
+        options:
+          $ref: '#/options'
+        type:
+          type: string
+          default: 'table'
+          readOnly: true
 
 custom:
   type: object
