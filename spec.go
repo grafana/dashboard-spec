@@ -33,7 +33,7 @@ type Schema struct {
 // Used for the purpose of flattening the properties of a schema. The location
 // field makes it possible to reconstruct later. This facilitates generating
 // setter/appender methods for deeply nested properties.
-type MappedSchema struct {
+type FlatSchema struct {
 	Name     string
 	Location []string
 	Schema   *Schema
@@ -75,7 +75,7 @@ func (s Schema) TopLevelSimpleProperties() map[string]*Schema {
 // Returns all properties that are readOnly and have a default property. It's
 // intended that these are set, but not explicitly configurable. For example, a
 // panel's "type" field.
-func (s Schema) ReadOnlyWithDefaultProperties() []MappedSchema {
+func (s Schema) ReadOnlyWithDefaultProperties() []FlatSchema {
 	return flatten(&s, func(s *Schema) bool {
 		return s.ReadOnly && s.Default != nil
 	})
@@ -96,7 +96,7 @@ func (s Schema) TopLevelObjectProperties() map[string]*Schema {
 // Returns all nested properties except arrays of objects. It's anticipated
 // that the parent schema object is a top-level object property and that the
 // properties returned here will be arguments in the parent's setter method.
-func (s Schema) NestedSimpleProperties() []MappedSchema {
+func (s Schema) NestedSimpleProperties() []FlatSchema {
 	return flatten(&s, func(s *Schema) bool {
 		return !s.ReadOnly && s.Type != "object" &&
 			(s.Type != "array" || s.Type == "array" && s.Items.Type != "object")
@@ -106,19 +106,19 @@ func (s Schema) NestedSimpleProperties() []MappedSchema {
 // Returns nested properties that are arrays of objects. It's anticipated that
 // these are used to create appender methods for constructing those objects and
 // appending them.
-func (s Schema) NestedComplexArrayProperties() []MappedSchema {
+func (s Schema) NestedComplexArrayProperties() []FlatSchema {
 	return flatten(&s, func(s *Schema) bool {
 		return !s.ReadOnly && s.Type == "array" && s.Items.Type == "object"
 	})
 }
 
 // Recursively flattens nested properties.
-func flatten(s *Schema, filter func(*Schema) bool) (ms []MappedSchema) {
+func flatten(s *Schema, filter func(*Schema) bool) (fs []FlatSchema) {
 	var flatten func(*Schema, []string)
 	flatten = func(s *Schema, locationPrefix []string) {
 		for n, s := range s.Properties {
 			if filter(s) {
-				ms = append(ms, MappedSchema{
+				fs = append(fs, FlatSchema{
 					Name:     n,
 					Location: append(locationPrefix, n),
 					Schema:   s,
@@ -129,6 +129,6 @@ func flatten(s *Schema, filter func(*Schema) bool) (ms []MappedSchema) {
 		}
 	}
 	flatten(s, []string{})
-	sort.SliceStable(ms, func(i, j int) bool { return ms[i].Name < ms[j].Name })
-	return ms
+	sort.SliceStable(fs, func(i, j int) bool { return fs[i].Name < fs[j].Name })
+	return fs
 }

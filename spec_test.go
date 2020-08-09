@@ -134,16 +134,16 @@ func TestReadOnlyWithDefaultProperties(t *testing.T) {
 	schema := Schema{
 		Properties: schemas,
 	}
-	props := schema.ReadOnlyWithDefaultProperties()
-	if len(want) != len(props) {
-		t.Errorf("Unexpected number of properties returned. Wanted: %d, got: %d.", len(want), len(props))
+	flatSchemaItems := schema.ReadOnlyWithDefaultProperties()
+	if len(want) != len(flatSchemaItems) {
+		t.Errorf("Unexpected number of properties returned. Wanted: %d, got: %d.", len(want), len(flatSchemaItems))
 	}
-	for i, ms := range props {
-		if want[i].name != ms.Name {
-			t.Errorf("Unexpected schema name. Wanted: %q, got: %q.", want[i].name, ms.Name)
+	for i, fs := range flatSchemaItems {
+		if want[i].name != fs.Name {
+			t.Errorf("Unexpected schema name. Wanted: %q, got: %q.", want[i].name, fs.Name)
 		}
-		if !reflect.DeepEqual(want[i].location, ms.Location) {
-			t.Errorf("Unexpected schema location. Wanted: %q, got: %q.", want[i].location, ms.Location)
+		if !reflect.DeepEqual(want[i].location, fs.Location) {
+			t.Errorf("Unexpected schema location. Wanted: %q, got: %q.", want[i].location, fs.Location)
 		}
 	}
 }
@@ -188,16 +188,16 @@ func TestNestedSimpleProperties(t *testing.T) {
 		},
 	}
 	schema := schemas["topLevelObject"]
-	props := schema.NestedSimpleProperties()
-	if len(want) != len(props) {
-		t.Errorf("Unexpected number of properties returned. Wanted: %d, got: %d.", len(want), len(props))
+	flatSchemaItems := schema.NestedSimpleProperties()
+	if len(want) != len(flatSchemaItems) {
+		t.Errorf("Unexpected number of properties returned. Wanted: %d, got: %d.", len(want), len(flatSchemaItems))
 	}
-	for i, ms := range props {
-		if want[i].name != ms.Name {
-			t.Errorf("Unexpected schema name. Wanted: %q, got: %q.", want[i].name, ms.Name)
+	for i, fs := range flatSchemaItems {
+		if want[i].name != fs.Name {
+			t.Errorf("Unexpected schema name. Wanted: %q, got: %q.", want[i].name, fs.Name)
 		}
-		if !reflect.DeepEqual(want[i].location, ms.Location) {
-			t.Errorf("Unexpected schema location. Wanted: %q, got: %q.", want[i].location, ms.Location)
+		if !reflect.DeepEqual(want[i].location, fs.Location) {
+			t.Errorf("Unexpected schema location. Wanted: %q, got: %q.", want[i].location, fs.Location)
 		}
 	}
 }
@@ -219,16 +219,16 @@ func TestNestedComplexArrayProperties(t *testing.T) {
 	schema := Schema{
 		Properties: schemas,
 	}
-	props := schema.NestedComplexArrayProperties()
-	if len(want) != len(props) {
-		t.Errorf("Unexpected number of properties returned. Wanted: %d, got: %d.", len(want), len(props))
+	flatSchemaItems := schema.NestedComplexArrayProperties()
+	if len(want) != len(flatSchemaItems) {
+		t.Errorf("Unexpected number of properties returned. Wanted: %d, got: %d.", len(want), len(flatSchemaItems))
 	}
-	for i, ms := range props {
-		if want[i].name != ms.Name {
-			t.Errorf("Unexpected schema name. Wanted: %q, got: %q.", want[i].name, ms.Name)
+	for i, fs := range flatSchemaItems {
+		if want[i].name != fs.Name {
+			t.Errorf("Unexpected schema name. Wanted: %q, got: %q.", want[i].name, fs.Name)
 		}
-		if !reflect.DeepEqual(want[i].location, ms.Location) {
-			t.Errorf("Unexpected schema location. Wanted: %q, got: %q.", want[i].location, ms.Location)
+		if !reflect.DeepEqual(want[i].location, fs.Location) {
+			t.Errorf("Unexpected schema location. Wanted: %q, got: %q.", want[i].location, fs.Location)
 		}
 	}
 }

@@ -10,39 +10,39 @@
 {{- end}}
 
 {{- define "readOnlyWithDefaultProperties"}}
-    {{- range $ms := .ReadOnlyWithDefaultProperties}}
-    {{range $i, $level := $ms.Location -}}
-    {{if eq (add 1 $i) (len $ms.Location)}}{{$level}}: {{$ms.Schema.DefaultJSON}}{{repeat " }" (subtract (len $ms.Location) 1)}}{{else}}{{$level}}+: { {{end}}{{end}},
+    {{- range $fs := .ReadOnlyWithDefaultProperties}}
+    {{range $i, $level := $fs.Location -}}
+    {{if eq (add 1 $i) (len $fs.Location)}}{{$level}}: {{$fs.Schema.DefaultJSON}}{{repeat " }" (subtract (len $fs.Location) 1)}}{{else}}{{$level}}+: { {{end}}{{end}},
     {{- end}}
 {{- end}}
 
 {{- define "topLevelObjectProperties"}}
     {{range $topName, $schema := .TopLevelObjectProperties}}
     {{objectInflection (printf "set %s" ($schema.HumanName $topName))}}(
-      {{- range $ms := $schema.NestedSimpleProperties}}
-      {{objectInflection ($ms.Schema.HumanName $ms.Name)}}={{$ms.Schema.DefaultJSON}},
+      {{- range $fs := $schema.NestedSimpleProperties}}
+      {{objectInflection ($fs.Schema.HumanName $fs.Name)}}={{$fs.Schema.DefaultJSON}},
       {{- end}}
     ):: self {}
-      {{range $ms := $schema.NestedSimpleProperties -}}
-      + { {{$topName}}+: {{range $i, $level := $ms.Location -}}
-      { {{if eq (add 1 $i) (len $ms.Location)}}{{$level}}: {{objectInflection ($ms.Schema.HumanName $ms.Name)}}{{repeat " }" (len $ms.Location)}}{{else}}{{$level}}+: {{end}}{{end}} }
+      {{range $fs := $schema.NestedSimpleProperties -}}
+      + { {{$topName}}+: {{range $i, $level := $fs.Location -}}
+      { {{if eq (add 1 $i) (len $fs.Location)}}{{$level}}: {{objectInflection ($fs.Schema.HumanName $fs.Name)}}{{repeat " }" (len $fs.Location)}}{{else}}{{$level}}+: {{end}}{{end}} }
       {{end}},
     {{end}}
 {{- end}}
 
 {{- define "nestedComplexArrayProperties"}}
-    {{range $ms := .NestedComplexArrayProperties}}
-    {{singularize (objectInflection (printf "add %s" ($ms.Schema.HumanName $ms.Name)))}}(
-      {{- range $name, $schema := $ms.Schema.Items.Properties}}
+    {{range $fs := .NestedComplexArrayProperties}}
+    {{singularize (objectInflection (printf "add %s" ($fs.Schema.HumanName $fs.Name)))}}(
+      {{- range $name, $schema := $fs.Schema.Items.Properties}}
       {{objectInflection ($schema.HumanName $name)}}={{$schema.DefaultJSON}},
       {{- end}}
     ):: self {}
-      + {{range $i, $level := $ms.Location -}}
-      { {{$level}}+: {{if eq (add 1 $i) (len $ms.Location)}}[{
-        {{- range $name, $schema := $ms.Schema.Items.Properties}}
+      + {{range $i, $level := $fs.Location -}}
+      { {{$level}}+: {{if eq (add 1 $i) (len $fs.Location)}}[{
+        {{- range $name, $schema := $fs.Schema.Items.Properties}}
         {{$name}}: {{objectInflection ($schema.HumanName $name)}},
         {{- end}}
-      }]{{repeat " }" (len $ms.Location) -}}
+      }]{{repeat " }" (len $fs.Location) -}}
       {{- end}}
       {{- end}},
     {{end}}
