@@ -43,6 +43,7 @@ Dashboard:
           type: array
           items:
             type: object
+          readOnly: true
       readOnly: true
     time:
       type: object
