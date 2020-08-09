@@ -168,6 +168,10 @@ func TestConstructableProperties(t *testing.T) {
 			[]string{"nestedObject", "deeplyNestedString"},
 		},
 		{
+			"nestedArrayWithStringItems",
+			[]string{"nestedArrayWithStringItems"},
+		},
+		{
 			"nestedInteger",
 			[]string{"nestedInteger"},
 		},
