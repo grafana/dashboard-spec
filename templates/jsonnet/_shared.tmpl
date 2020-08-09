@@ -1,10 +1,10 @@
-{{- define "topLevelSingleValProperties"}}
+{{- define "topLevelSimpleProperties"}}
   new(
-    {{- range $name, $schema := .TopLevelSingleValProperties}}
+    {{- range $name, $schema := .TopLevelSimpleProperties}}
     {{objectInflection ($schema.HumanName $name)}}={{$schema.DefaultJSON}},
     {{- end}}
   ):: {
-    {{- range $name, $schema := .TopLevelSingleValProperties}}
+    {{- range $name, $schema := .TopLevelSimpleProperties}}
     [if {{$name}} != null then '{{$name}}']: {{objectInflection ($schema.HumanName $name)}},
     {{- end}}
 {{- end}}
@@ -19,19 +19,19 @@
 {{- define "topLevelObjectProperties"}}
     {{range $topName, $schema := .TopLevelObjectProperties}}
     {{objectInflection (printf "set %s" ($schema.HumanName $topName))}}(
-      {{- range $ms := $schema.ConstructableProperties}}
+      {{- range $ms := $schema.NestedSimpleProperties}}
       {{objectInflection ($ms.Schema.HumanName $ms.Name)}}={{$ms.Schema.DefaultJSON}},
       {{- end}}
     ):: self {}
-      {{range $ms := $schema.ConstructableProperties -}}
+      {{range $ms := $schema.NestedSimpleProperties -}}
       + { {{$topName}}+: {{range $i, $level := $ms.Location -}}
       { {{if eq (add 1 $i) (len $ms.Location)}}{{$level}}: {{objectInflection ($ms.Schema.HumanName $ms.Name)}}{{repeat " }" (len $ms.Location)}}{{else}}{{$level}}+: {{end}}{{end}} }
       {{end}},
     {{end}}
 {{- end}}
 
-{{- define "appendableProperties"}}
-    {{range $ms := .AppendableProperties}}
+{{- define "nestedComplexArrayProperties"}}
+    {{range $ms := .NestedComplexArrayProperties}}
     {{singularize (objectInflection (printf "add %s" ($ms.Schema.HumanName $ms.Name)))}}(
       {{- range $name, $schema := $ms.Schema.Items.Properties}}
       {{objectInflection ($schema.HumanName $name)}}={{$schema.DefaultJSON}},

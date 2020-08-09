@@ -1,11 +1,11 @@
 {
-  {{- template "topLevelSingleValProperties" .}}
+  {{- template "topLevelSimpleProperties" .}}
 
     {{- template "readOnlyWithDefaultProperties" .}}
 
     {{- template "topLevelObjectProperties" .}}
 
-    {{- template "appendableProperties" .}}
+    {{- template "nestedComplexArrayProperties" .}}
 
     panels: [],
     _nextPanel:: 2,
