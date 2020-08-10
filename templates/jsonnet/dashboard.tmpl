@@ -16,9 +16,9 @@
     },
     addPanels(panels):: std.foldl(function(d, p) d.addPanel(p), panels, self),
 
-    templating: { steps: [] },
+    templating: { list: [] },
     addTemplates(templates):: self {
-      templating+: { steps+: templates },
+      templating+: { list+: templates },
     },
     addTemplate(t):: self.addTemplates([t]),
   },
