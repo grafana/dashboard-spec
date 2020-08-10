@@ -1,0 +1,184 @@
+Graph:
+  allOf:
+    - $ref: 'panel.yml#/panel'
+    - type: object
+      properties:
+        bars:
+          type: boolean
+          default: false
+        dashLength:
+          type: integer
+          default: 10
+        dashes:
+          type: boolean
+          default: false
+        decimals:
+          type: integer
+          default: 0
+        fieldConfig:
+          $ref: '#/fieldConfig'
+        fill:
+          type: integer
+          default: 1
+        fillGradient:
+          type: integer
+          default: 0
+        hiddenSeries:
+          type: boolean
+          default: false
+        legend:
+          $ref: '#/legend'
+        lines:
+          type: boolean
+          default: true
+        linewidth:
+          type: integer
+          default: 1
+        nullPointMode:
+          type: string
+          default: "null"
+        percentage:
+          type: boolean
+          default: false
+        pointradius:
+          type: integer
+          default: 2
+        points:
+          type: boolean
+          default: false
+        renderer:
+          type: string
+          default: "flot"
+        seriesOverrides:
+          type: array
+          default: []
+        spaceLength:
+          type: integer
+          default: 10
+        stack:
+          type: boolean
+          default: false
+        steppedLine:
+          type: boolean
+          default: false
+        thresholds:
+          $ref: 'threshold.yml#/threshold'
+        timeFrom:
+          type: string
+        timeRegions:
+          type: array
+        timeShift:
+          type: string
+        tooltip:
+          type: object
+          properties:
+            shared:
+              type: boolean
+              default: true
+            sort:
+              type: integer
+              default: 2
+            value_type:
+              type: string
+              default: individual
+        type:
+          type: string
+          default: graph
+          readOnly: true
+        xaxis:
+          type: object
+          properties:
+            buckets:
+              type: string
+            mode:
+              type: string
+              default: time
+            name:
+              type: string
+            show:
+              type: boolean
+              default: true
+            values:
+              type: array
+              default: []
+        yaxes:
+          type: array
+          items:
+            type: object
+            properties:
+              format:
+                type: string
+                default: short
+              label:
+                type: string
+              logBase:
+                type: integer
+                default: 1
+              max:
+                type: integer
+              min:
+                type: integer
+              show:
+                type: boolean
+                default: true
+        yaxis:
+          type: object
+          properties:
+            align:
+              type: boolean
+              default: false
+            alignLevel:
+              type: string
+
+defaults:
+  type: object
+  properties:
+    custom:
+      type: object
+      default: {}
+    links:
+      title: Data Links
+      type: array
+      items:
+        $ref: 'link.yml#/link'
+
+fieldConfig:
+  type: object
+  properties:
+    defaults:
+      $ref: '#/defaults'
+    overrides:
+      type: array
+      items:
+        $ref: 'override.yml#/override'
+
+legend:
+  type: object
+  properties:
+    alignAsTable:
+      type: boolean
+      default: false
+    avg:
+      type: boolean
+      default: false
+    current:
+      type: boolean
+      default: false
+    max:
+      type: boolean
+      default: false
+    min:
+      type: boolean
+      default: false
+    rightSide:
+      type: boolean
+      default: false
+    show:
+      type: boolean
+      default: true
+    total:
+      type: boolean
+      default: false
+    values:
+      type: boolean
+      default: true
