@@ -80,7 +80,7 @@ func (s Schema) TopLevelSimpleProperties() map[string]*Schema {
 	p := map[string]*Schema{}
 	for n, s := range s.AllProperties() {
 		if !s.ReadOnly && s.Type != "object" &&
-			(s.Type != "array" || s.Type == "array" && s.Items.Type != "object") {
+			(s.Type != "array" || s.Type == "array" && s.Items != nil && s.Items.Type != "object") {
 			p[n] = s
 		}
 	}
@@ -114,7 +114,7 @@ func (s Schema) TopLevelObjectProperties() map[string]*Schema {
 func (s Schema) NestedSimpleProperties() []FlatSchema {
 	return flatten(&s, func(s *Schema) bool {
 		return !s.ReadOnly && s.Type != "object" &&
-			(s.Type != "array" || s.Type == "array" && s.Items.Type != "object")
+			(s.Type != "array" || s.Type == "array" && s.Items != nil && s.Items.Type != "object")
 	})
 }
 
@@ -123,7 +123,7 @@ func (s Schema) NestedSimpleProperties() []FlatSchema {
 // appending them.
 func (s Schema) NestedComplexArrayProperties() []FlatSchema {
 	return flatten(&s, func(s *Schema) bool {
-		return !s.ReadOnly && s.Type == "array" && s.Items.Type == "object"
+		return !s.ReadOnly && s.Type == "array" && s.Items != nil && s.Items.Type == "object"
 	})
 }
 
