@@ -61,7 +61,6 @@ Dashboard:
       $ref: '#/timepicker'
     timezone:
       type: string
-      default: browser
     title:
       type: string
     uid:
@@ -104,6 +103,7 @@ timepicker:
       items:
         type: string
       default:
+        - 5s
         - 10s
         - 30s
         - 1m
@@ -113,17 +113,3 @@ timepicker:
         - 1h
         - 2h
         - 1d
-    time_options:
-      type: array
-      items:
-        type: string
-      default:
-        - 5m
-        - 15m
-        - 1h
-        - 6h
-        - 12h
-        - 24h
-        - 2d
-        - 7d
-        - 30d

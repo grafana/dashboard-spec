@@ -15,6 +15,9 @@ Stat:
 defaults:
   type: object
   properties:
+    custom:
+      type: object
+      default: {}
     links:
       title: Data Links
       type: array
@@ -26,15 +29,12 @@ defaults:
         $ref: 'mapping.yml#/mapping'
     max:
       type: integer
-      default: 0
     min:
       type: integer
-      default: 0
     thresholds:
       $ref: 'threshold.yml#/threshold'
     unit:
       type: string
-      default: short
 
 fieldConfig:
   type: object
@@ -49,6 +49,15 @@ fieldConfig:
 options:
   type: object
   properties:
+    colorMode:
+      type: string
+      default: value
+    graphMode:
+      type: string
+      default: none
+    justifyMode:
+      type: string
+      default: auto
     orientation:
       type: string
       default: auto
@@ -66,9 +75,7 @@ options:
         values:
           type: boolean
           default: false
-    showThresholdLabels:
-      type: boolean
-      default: false
-    showThresholdMarkers:
-      type: boolean
-      default: true
+    textMode:
+      type: string
+      default: auto
+

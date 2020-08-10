@@ -11,9 +11,8 @@ Prometheus:
     format:
       type: string
       default: time_series
-    interalFactor:
-      type: integer
-      default: 2
+    interval:
+      type: string
     legendFormat:
       type: string
     refId:

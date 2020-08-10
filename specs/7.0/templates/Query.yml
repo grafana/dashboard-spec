@@ -18,13 +18,12 @@ Query:
       type: string
     definition:
       type: string
-      default: yes
     hide:
       type: integer
       default: 0
     includeAll:
       type: boolean
-      default: true
+      default: false
     label:
       type: string
     multi:
@@ -46,7 +45,6 @@ Query:
             type: string
     query:
       type: string
-      default: yes
     refresh:
       type: integer
       default: 0
@@ -69,6 +67,7 @@ Query:
     type:
       type: string
       default: 'query'
+      readOnly: true
     useTags:
       type: boolean
       default: false

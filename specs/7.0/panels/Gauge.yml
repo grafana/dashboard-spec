@@ -15,6 +15,9 @@ Gauge:
 defaults:
   type: object
   properties:
+    custom:
+      type: object
+      default: {}
     links:
       title: Data Links
       type: array
@@ -26,15 +29,12 @@ defaults:
         $ref: 'mapping.yml#/mapping'
     max:
       type: integer
-      default: 0
     min:
       type: integer
-      default: 0
     thresholds:
       $ref: 'threshold.yml#/threshold'
     unit:
       type: string
-      default: short
 
 fieldConfig:
   type: object
