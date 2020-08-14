@@ -21,6 +21,8 @@ components:
           $ref: 'panels/Stat.yml#/Stat'
         Table:
           $ref: 'panels/Table.yml#/Table'
+        Text:
+          $ref: 'panels/Text.yml#/Text'
     Target:
       type: object
       properties:
