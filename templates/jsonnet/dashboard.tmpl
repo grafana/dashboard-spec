@@ -15,11 +15,5 @@
       panels+: [panel { id: nextPanel }],
     },
     addPanels(panels):: std.foldl(function(d, p) d.addPanel(p), panels, self),
-
-    templating: { list: [] },
-    addTemplates(templates):: self {
-      templating+: { list+: templates },
-    },
-    addTemplate(t):: self.addTemplates([t]),
   },
 }

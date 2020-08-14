@@ -40,11 +40,10 @@ Dashboard:
       type: object
       properties:
         list:
+          title: Template
           type: array
           items:
             type: object
-          readOnly: true
-      readOnly: true
     time:
       type: object
       properties:

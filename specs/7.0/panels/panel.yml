@@ -15,6 +15,10 @@ panel:
       type: array
       items:
         $ref: 'link.yml#/link'
+    targets:
+      type: array
+      items:
+        type: object
     title:
       type: string
     transparent:
