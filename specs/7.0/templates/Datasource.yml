@@ -1,0 +1,44 @@
+Datasource:
+  type: object
+  required:
+    - name
+  properties:
+    current:
+      type: object
+      properties:
+        selected:
+          type: boolean
+          default: false
+        text:
+          type: string
+        value:
+          type: string
+    hide:
+      type: integer
+      default: 0
+    includeAll:
+      type: boolean
+      default: false
+    label:
+      type: string
+    multi:
+      type: boolean
+      default: false
+    name:
+      type: string
+    options:
+      type: array
+    query:
+      type: string
+    refresh:
+      type: integer
+      default: 1
+    regex:
+      type: string
+    skipUrlSync:
+      type: string
+      default: false
+    type:
+      type: string
+      default: 'datasource'
+      readOnly: true

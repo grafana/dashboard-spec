@@ -29,5 +29,7 @@ components:
     Template:
       type: object
       properties:
+        Datasource:
+          $ref: 'templates/Datasource.yml#/Datasource'
         Query:
           $ref: 'templates/Query.yml#/Query'
