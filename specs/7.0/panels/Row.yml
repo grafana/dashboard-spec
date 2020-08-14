@@ -1,0 +1,36 @@
+Row:
+  type: object
+  properties:
+    collapse:
+      type: boolean
+      default: true
+    collapsed:
+      type: boolean
+      default: true
+    datasource:
+      type: string
+    gridPos:
+      $ref: 'gridPos.yml#/gridPos'
+    panels:
+      type: array
+      items:
+        type: object
+    repeat:
+      type: string
+    repeatIteration:
+      type: string
+    repeatRowId:
+      type: integer
+      readOnly: true
+    showTitle:
+      type: boolean
+      default: true
+    title:
+      type: string
+    titleSize:
+      type: string
+      default: h6
+    type:
+      type: string
+      default: row
+      readOnly: true

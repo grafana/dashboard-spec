@@ -17,6 +17,8 @@ components:
           $ref: 'panels/Gauge.yml#/Gauge'
         Graph:
           $ref: 'panels/Graph.yml#/Graph'
+        Row:
+          $ref: 'panels/Row.yml#/Row'
         Stat:
           $ref: 'panels/Stat.yml#/Stat'
         Table:
