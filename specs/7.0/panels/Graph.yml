@@ -51,7 +51,13 @@ Graph:
           default: "flot"
         seriesOverrides:
           type: array
-          default: []
+          items:
+            type: object
+            properties:
+              alias:
+                type: string
+              yaxis:
+                type: integer
         spaceLength:
           type: integer
           default: 10
