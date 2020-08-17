@@ -14,6 +14,12 @@ steps:
   commands:
   - go run . 7.0 jsonnet
 
+- name: jsonnet fmt
+  image: bitnami/jsonnet:0.16.0
+  user: root
+  commands:
+  - find _gen/7.0/jsonnet/ -name '*.libsonnet' | xargs jsonnetfmt -i
+
 - name: push
   image: alpine/git:v2.26.2
   environment:
