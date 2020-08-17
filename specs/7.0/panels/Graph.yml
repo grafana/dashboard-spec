@@ -14,7 +14,6 @@ Graph:
           default: false
         decimals:
           type: integer
-          default: 0
         fieldConfig:
           $ref: '#/fieldConfig'
         fill:
