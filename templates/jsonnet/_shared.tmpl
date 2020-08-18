@@ -18,16 +18,19 @@
 
 {{- define "topLevelObjectProperties"}}
     {{range $topName, $schema := .TopLevelObjectProperties}}
+    {{- if gt (len $schema.NestedSimpleProperties) 0}}
     {{objectInflection (printf "set %s" ($schema.HumanName $topName))}}(
       {{- range $fs := $schema.NestedSimpleProperties}}
       {{objectInflection ($fs.Schema.HumanName $fs.Name)}}={{$fs.Schema.DefaultJSON}},
       {{- end}}
     ):: self {}
       {{range $fs := $schema.NestedSimpleProperties -}}
-      + { {{$topName}}+: {{range $i, $level := $fs.Location -}}
+      + { {{$topName}}+:
+      {{- range $i, $level := $fs.Location -}}
       { {{if eq (add 1 $i) (len $fs.Location)}}{{$level}}: {{objectInflection ($fs.Schema.HumanName $fs.Name)}}{{repeat " }" (len $fs.Location)}}{{else}}{{$level}}+: {{end}}{{end}} }
       {{end}},
-    {{end}}
+    {{- end}}
+    {{- end}}
 {{- end}}
 
 {{- define "nestedComplexArrayProperties"}}
