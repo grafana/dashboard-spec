@@ -36,6 +36,8 @@ Graph:
         nullPointMode:
           type: string
           default: "null"
+        options:
+          $ref: '#/options'
         percentage:
           type: boolean
           default: false
@@ -141,11 +143,6 @@ defaults:
     custom:
       type: object
       default: {}
-    links:
-      title: Data Links
-      type: array
-      items:
-        $ref: 'link.yml#/link'
 
 fieldConfig:
   type: object
@@ -187,3 +184,11 @@ legend:
     values:
       type: boolean
       default: true
+
+options:
+  type: object
+  properties:
+    dataLinks:
+      type: array
+      items:
+        $ref: 'link.yml#/link'
