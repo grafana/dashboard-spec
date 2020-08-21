@@ -11,10 +11,12 @@ Prometheus:
     format:
       type: string
       default: time_series
-    interval:
-      type: string
     legendFormat:
       type: string
+    interval:
+      type: string
+    intervalFactor:
+      type: integer
     refId:
       type: string
       readOnly: true
