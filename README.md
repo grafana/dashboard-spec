@@ -1,24 +1,12 @@
 # Grafana Dashboard Spec
 
-Specification for [Grafana Dashboard
+Schema description documents for [Grafana Dashboard
 JSON](https://grafana.com/docs/grafana/latest/reference/dashboard/) and core
 panels using the [OpenAPI
 Specification](https://github.com/OAI/OpenAPI-Specification).
 
-This can used for generating models in a variety of programming languages. The
-models facilitate writing dashboards as code.
-
-## Generated Code
-
-The generated code lives in this repository's [\_gen](https://github.com/trotttrotttrott/dashboard-spec/tree/_gen) branch.
-
-### Spec Documents
-
-* [7.0/spec.json](https://github.com/trotttrotttrott/dashboard-spec/blob/_gen/_gen/7.0/spec.json)
-
-### Libraries
-
-* [7.0/jsonnet](https://github.com/trotttrotttrott/dashboard-spec/tree/_gen/_gen/7.0/jsonnet)
+Also in this repository is a code generator that uses the schema documents to
+generate libraries for writing Grafana dashboards as code.
 
 ## Repo Layout
 
@@ -57,7 +45,7 @@ modeling.
 Templates for the code generator. Child directories are named after the language
 they contain templates for.
 
-Each language must implment the following templates:
+Each language must implement the following templates:
 
 * `main.tmpl`: this is the main library file. It's intended that this file be
   imported when implementing the generated code.
@@ -73,16 +61,16 @@ Each language must implment the following templates:
 Arrays of objects should use mutator functions to append to them. For example
 `addLink()`.
 
-Arrays of single values should be set as top level arguemnts.
+Arrays of single values should be set as top level arguments.
 
 First level nested objects should also use mutator functions with all non-array
-fields as arguemnts. For example, `feildConfig(min=0, max=100)`.
+fields as arguments. For example, `feildConfig(min=0, max=100)`.
 
-If fields need special processing, set them as readOnly and implement static
+If fields need special processing, set them as `readOnly` and implement static
 functions. For example if you need to add an incrementing `id` field like we do
 for panels.
 
-If a property is `readOnly` and also has default, set the default as a static
+If a property is `readOnly` and also has a default, set the default as a static
 value on the object.
 
 ## Code Generator
@@ -99,3 +87,15 @@ are updated and committed to the
 [\_gen](https://github.com/trotttrotttrott/dashboard-spec/tree/_gen) branch
 after every commit to master. See the [Generated Code](#generated-code) section
 for direct links.
+
+## Generated Code
+
+The generated code lives in this repository's [\_gen](https://github.com/trotttrotttrott/dashboard-spec/tree/_gen) branch.
+
+### Spec Documents
+
+* [7.0/spec.json](https://github.com/trotttrotttrott/dashboard-spec/blob/_gen/_gen/7.0/spec.json)
+
+### Libraries
+
+* [7.0/jsonnet](https://github.com/trotttrotttrott/dashboard-spec/tree/_gen/_gen/7.0/jsonnet)
