@@ -20,6 +20,15 @@ All properties of an object should be defined alphabetically.
 
 All properties should have a description. This is used for API doc generation.
 
+File names should be in camel case. All files referenced as a schema component
+in a `spec.yml` should begin with a capital letter (PascalCase). Files
+containing shared schema components like "gridPos" or "threshold" should be
+named with a leading underscore.
+
+Each spec directory should have child directories "panels", "targets",
+"templates" for organizing schema files. All files should live in those
+directories except "Dashboard.yml" and "spec.yml".
+
 If a property's name could be more descriptive in code or it collides with
 another name nested in the same object, use the `title` field to indicate what
 that object should be called in code. For example, most panels have a top-level
@@ -32,13 +41,6 @@ the properties have `title` set to "Panel Link" and "Data Link". The code
 generator should use this field instead for deciding method names. Depending on
 what the language has set for its object inflection property, this will result
 in methods like, `addPanelLinks()` and `addDataLinks()`.
-
-File names should be in camel case. All files referenced as a schema component
-in a `spec.yml` should begin with a capital letter (PascalCase).
-
-Most objects are either a "panel", "datasource", or "template". Each object's
-definition should live in its respective directory of the spec version it's
-modeling.
 
 ### [templates/](./templates)
 
@@ -58,17 +60,16 @@ Each language must implement the following templates:
 
 #### Style Guide for Templates
 
-Arrays of objects should use mutator functions to append to them. For example
-`addLink()`.
+Object arrays should have "appender" methods. For example `addLink()` and
+`addTarget()`.
 
-Arrays of single values should be set as top level arguments.
-
-First level nested objects should also use mutator functions with all non-array
-fields as arguments. For example, `feildConfig(min=0, max=100)`.
+Objects nested one level should have "setter" methods with all simple fields as
+arguments. For example, `setGridPos()` and `setLegend()`. "Simple" fields are
+everything that's not an object array.
 
 If fields need special processing, set them as `readOnly` and implement static
-functions. For example if you need to add an incrementing `id` field like we do
-for panels.
+methods for setting them. For example if you need to add an incrementing `id`
+field like we do when adding panels to a dashboard.
 
 If a property is `readOnly` and also has a default, set the default as a static
 value on the object.
