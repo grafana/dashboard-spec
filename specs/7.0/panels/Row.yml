@@ -10,7 +10,7 @@ Row:
     datasource:
       type: string
     gridPos:
-      $ref: 'gridPos.yml#/gridPos'
+      $ref: '_gridPos.yml#/gridPos'
     panels:
       type: array
       items:

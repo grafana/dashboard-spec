@@ -9,12 +9,12 @@ panel:
     description:
       type: string
     gridPos:
-      $ref: 'gridPos.yml#/gridPos'
+      $ref: '_gridPos.yml#/gridPos'
     links:
       title: Panel Links
       type: array
       items:
-        $ref: 'link.yml#/link'
+        $ref: '_link.yml#/link'
     targets:
       type: array
       items:

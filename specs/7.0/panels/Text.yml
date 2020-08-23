@@ -1,6 +1,6 @@
 Text:
   allOf:
-    - $ref: 'panel.yml#/panel'
+    - $ref: '_panel.yml#/panel'
     - type: object
       properties:
         content:

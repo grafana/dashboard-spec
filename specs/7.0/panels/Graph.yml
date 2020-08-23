@@ -1,6 +1,6 @@
 Graph:
   allOf:
-    - $ref: 'panel.yml#/panel'
+    - $ref: '_panel.yml#/panel'
     - type: object
       properties:
         bars:
@@ -69,7 +69,7 @@ Graph:
           type: boolean
           default: false
         thresholds:
-          $ref: 'threshold.yml#/threshold'
+          $ref: '_threshold.yml#/threshold'
         timeFrom:
           type: string
         timeRegions:
@@ -152,7 +152,7 @@ fieldConfig:
     overrides:
       type: array
       items:
-        $ref: 'override.yml#/override'
+        $ref: '_override.yml#/override'
 
 legend:
   type: object
@@ -191,4 +191,4 @@ options:
     dataLinks:
       type: array
       items:
-        $ref: 'link.yml#/link'
+        $ref: '_link.yml#/link'

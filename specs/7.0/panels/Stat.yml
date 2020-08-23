@@ -1,6 +1,6 @@
 Stat:
   allOf:
-    - $ref: 'panel.yml#/panel'
+    - $ref: '_panel.yml#/panel'
     - type: object
       properties:
         fieldConfig:
@@ -22,17 +22,17 @@ defaults:
       title: Data Links
       type: array
       items:
-        $ref: 'link.yml#/link'
+        $ref: '_link.yml#/link'
     mappings:
       type: array
       items:
-        $ref: 'mapping.yml#/mapping'
+        $ref: '_mapping.yml#/mapping'
     max:
       type: integer
     min:
       type: integer
     thresholds:
-      $ref: 'threshold.yml#/threshold'
+      $ref: '_threshold.yml#/threshold'
     unit:
       type: string
 
@@ -44,7 +44,7 @@ fieldConfig:
     overrides:
       type: array
       items:
-        $ref: 'override.yml#/override'
+        $ref: '_override.yml#/override'
 
 options:
   type: object
