@@ -6,52 +6,87 @@ Graph:
         bars:
           type: boolean
           default: false
+          description: Display values as a bar chart.
         dashLength:
           type: integer
           default: 10
+          description: Dashed line length.
         dashes:
           type: boolean
           default: false
+          description: Show line with dashes.
         decimals:
           type: integer
+          description: |-
+            Controls how many decimals are displayed for legend values and
+            graph hover tooltips.
         fieldConfig:
           $ref: '#/fieldConfig'
         fill:
           type: integer
           default: 1
+          description: |-
+            Amount of color fill for a series. Expects a value between 0 and 1.
         fillGradient:
           type: integer
           default: 0
+          description: |-
+            Degree of gradient on the area fill. 0 is no gradient, 10 is a
+            steep gradient.
         hiddenSeries:
           type: boolean
           default: false
+          description: Hide the series.
         legend:
           $ref: '#/legend'
         lines:
           type: boolean
           default: true
+          description: Display values as a line graph.
         linewidth:
           type: integer
           default: 1
+          description: The width of the line for a series.
         nullPointMode:
           type: string
-          default: "null"
+          default: 'null'
+          description: |-
+            How null values are displayed.
+            * 'null' - If there is a gap in the series, meaning a null value,
+              then the line in the graph will be broken and show the gap.
+            * 'null as zero' - If there is a gap in the series, meaning a null
+              value, then it will be displayed as a zero value in the graph
+              panel.
+            * 'connected' - If there is a gap in the series, meaning a null
+              value or values, then the line will skip the gap and connect to the
+              next non-null value.
         options:
           $ref: '#/options'
         percentage:
           type: boolean
           default: false
+          description: |-
+            Available when `stack` is true. Each series is drawn as a percentage
+            of the total of all series.
         pointradius:
           type: integer
-          default: 2
+          description: Controls how large the points are.
         points:
           type: boolean
           default: false
+          description: Display points for values.
         renderer:
           type: string
           default: "flot"
+          readOnly: true
         seriesOverrides:
           type: array
+          description: |-
+            Series overrides allow a series in a graph panel to be rendered
+            differently from the others. You can customize display options on a
+            per-series bases or by using regex rules. For example, one series
+            can have a thicker line width to make it stand out or be moved to
+            the right Y-axis.
           items:
             type: object
             properties:
@@ -62,12 +97,15 @@ Graph:
         spaceLength:
           type: integer
           default: 10
+          description: Dashed line spacing when `dashes` is true.
         stack:
           type: boolean
           default: false
+          description: Each series is stacked on top of another.
         steppedLine:
           type: boolean
           default: false
+          description: Draws adjacent points as staircase.
         thresholds:
           $ref: '_threshold.yml#/threshold'
         timeFrom:
@@ -82,12 +120,29 @@ Graph:
             shared:
               type: boolean
               default: true
+              description: |-
+                * true - The hover tooltip shows all series in the graph.
+                  Grafana highlights the series that you are hovering over in
+                  bold in the series list in the tooltip.
+                * false - The hover tooltip shows only a single series, the one
+                  that you are hovering over on the graph.
             sort:
               type: integer
               default: 2
+              description: |-
+                * 0 (none) - The order of the series in the tooltip is
+                  determined by the sort order in your query. For example, they
+                  could be alphabetically sorted by series name.
+                * 1 (increasing) - The series in the hover tooltip are sorted
+                  by value and in increasing order, with the lowest value at the
+                  top of the list.
+                * 2 (decreasing) - The series in the hover tooltip are sorted
+                  by value and in decreasing order, with the highest value at the
+                  top of the list.
             value_type:
               type: string
               default: individual
+              readOnly: true
         type:
           type: string
           default: graph
@@ -100,11 +155,26 @@ Graph:
             mode:
               type: string
               default: time
+              description: |-
+                The display mode completely changes the visualization of the
+                graph panel. It’s like three panels in one. The main mode is
+                the time series mode with time on the X-axis. The other two
+                modes are a basic bar chart mode with series on the X-axis
+                instead of time and a histogram mode.
+                * 'time' - The X-axis represents time and that the data is
+                  grouped by time (for example, by hour, or by minute).
+                * 'series' - The data is grouped by series and not by time. The
+                  Y-axis still represents the value.
+                * 'histogram' - Converts the graph into a histogram. A histogram
+                  is a kind of bar chart that groups numbers into ranges, often
+                  called buckets or bins. Taller bars show that more data falls
+                  in that range.
             name:
               type: string
             show:
               type: boolean
               default: true
+              description: Show or hide the axis.
             values:
               type: array
               default: []
@@ -113,29 +183,49 @@ Graph:
           items:
             type: object
             properties:
+              decimals:
+                type: integer
+                description: Defines how many decimals are displayed for Y value.
               format:
                 type: string
                 default: short
+                description: The display unit for the Y value.
               label:
                 type: string
+                description: The Y axis label.
               logBase:
                 type: integer
                 default: 1
+                description: |-
+                  The scale to use for the Y value - linear, or logarithmic.
+                  * 1 - linear
+                  * 2 - log (base 2)
+                  * 10 - log (base 10)
+                  * 32 - log (base 32)
+                  * 1024 - log (base 1024)
               max:
                 type: integer
+                description: The maximum Y value.
               min:
                 type: integer
+                description: The minimum Y value.
               show:
                 type: boolean
                 default: true
+                description: Show or hide the axis.
         yaxis:
           type: object
           properties:
             align:
               type: boolean
               default: false
+              description: Align left and right Y-axes by value.
             alignLevel:
-              type: string
+              type: integer
+              default: 0
+              description: |-
+                Available when align is true. Value to use for alignment of
+                left and right Y-axes, starting from Y=0.
 
 defaults:
   type: object
@@ -159,28 +249,40 @@ legend:
   properties:
     alignAsTable:
       type: boolean
-      default: false
+      description: Whether to display legend in table.
     avg:
       type: boolean
       default: false
+      description: Average of all values returned from the metric query.
     current:
       type: boolean
       default: false
+      description: Last value returned from the metric query.
     max:
       type: boolean
       default: false
+      description: Maximum of all values returned from the metric query.
     min:
       type: boolean
       default: false
+      description: Minimum of all values returned from the metric query.
     rightSide:
       type: boolean
       default: false
+      description: Display legend to the right.
     show:
       type: boolean
       default: true
+      description: Show or hide the legend.
+    sideWidth:
+      type: integer
+      description: |-
+        Available when `rightSide` is true. The minimum width for the legend in
+        pixels.
     total:
       type: boolean
       default: false
+      description: Sum of all values returned from the metric query.
     values:
       type: boolean
       default: true
