@@ -27,7 +27,8 @@
       {{range $fs := $schema.NestedSimpleProperties -}}
       + { {{$topName}}+:
       {{- range $i, $level := $fs.Location -}}
-      { {{if eq (add 1 $i) (len $fs.Location)}}{{$level}}: {{objectInflection ($fs.Schema.HumanName $fs.Name)}}{{repeat " }" (len $fs.Location)}}{{else}}{{$level}}+: {{end}}{{end}} }
+      { {{if lt (add 1 $i) (len $fs.Location)}} {{$level}}+: {{else -}}
+        [if {{objectInflection ($fs.Schema.HumanName $fs.Name)}} != null then '{{$level}}']: {{objectInflection ($fs.Schema.HumanName $fs.Name)}}{{repeat " }" (len $fs.Location)}}{{end}}{{end}} }
       {{end}},
     {{- end}}
     {{- end}}
@@ -51,7 +52,7 @@
         {{- else}}
         {
           {{- range $name, $schema := $fs.Schema.Items.Properties}}
-          {{$name}}: {{objectInflection ($schema.HumanName $name)}},
+          [if {{objectInflection ($schema.HumanName $name)}} != null then '{{$name}}']: {{objectInflection ($schema.HumanName $name)}},
           {{- end}}
         },
         {{- end}}
