@@ -3,18 +3,15 @@ gridPos:
   properties:
     h:
       type: integer
-      default: 4
+      default: 8
       description: Panel height.
     w:
       type: integer
-      default: 6
+      default: 12
       description: Panel width.
     x:
       type: integer
-      default: 0
       description: Panel x position.
     y:
       type: integer
-      default: 0
       description: Panel y position.
-  default: {}
