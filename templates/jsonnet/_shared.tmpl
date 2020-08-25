@@ -30,8 +30,7 @@
       { {{if lt (add 1 $i) (len $fs.Location)}} {{$level}}+: {{else -}}
         [if {{objectInflection ($fs.Schema.HumanName $fs.Name)}} != null then '{{$level}}']: {{objectInflection ($fs.Schema.HumanName $fs.Name)}}{{repeat " }" (len $fs.Location)}}{{end}}{{end}} }
       {{end}},
-    {{- end}}
-    {{- end}}
+    {{end}}{{end}}
 {{- end}}
 
 {{- define "nestedComplexArrayProperties"}}
