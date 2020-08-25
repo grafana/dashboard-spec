@@ -80,20 +80,7 @@ Graph:
           default: "flot"
           readOnly: true
         seriesOverrides:
-          type: array
-          description: |-
-            Series overrides allow a series in a graph panel to be rendered
-            differently from the others. You can customize display options on a
-            per-series bases or by using regex rules. For example, one series
-            can have a thicker line width to make it stand out or be moved to
-            the right Y-axis.
-          items:
-            type: object
-            properties:
-              alias:
-                type: string
-              yaxis:
-                type: integer
+          $ref: '#/seriesOverrides'
         spaceLength:
           type: integer
           default: 10
@@ -294,3 +281,60 @@ options:
       type: array
       items:
         $ref: '_link.yml#/link'
+
+seriesOverrides:
+  type: array
+  description: |-
+    Series overrides allow a series in a graph panel to be rendered
+    differently from the others. You can customize display options on a
+    per-series bases or by using regex rules. For example, one series
+    can have a thicker line width to make it stand out or be moved to
+    the right Y-axis.
+  items:
+    type: object
+    properties:
+      alias:
+        type: string
+        description: Alias or regex matching the series you'd like to target.
+      bars:
+        type: boolean
+      lines:
+        type: boolean
+      fill:
+        type: integer
+      fillGradient:
+        type: integer
+      linewidth:
+        type: integer
+      nullPointMode:
+        type: string
+      fillBelowTo:
+        type: string
+      steppedLine:
+        type: boolean
+      dashes:
+        type: boolean
+      hiddenSeries:
+        type: boolean
+      dashLength:
+        type: integer
+      spaceLength:
+        type: integer
+      points:
+        type: boolean
+      pointradius:
+        type: integer
+      stack:
+        type: integer
+      color:
+        type: string
+      yaxis:
+        type: integer
+      zindex:
+        type: integer
+      transform:
+        type: string
+      legend:
+        type: boolean
+      hideTooltip:
+        type: boolean
