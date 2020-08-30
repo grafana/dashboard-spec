@@ -137,5 +137,35 @@ func generate(s Spec, l Language) error {
 		}
 	}
 
-	return g("grafana", "main", s.Components.Schemas)
+	// Generate main.
+	err = g("grafana", "main", s.Components.Schemas)
+	if err != nil {
+		return err
+	}
+
+	// Generate docs.
+	tmpl, err := template.New("docs.tmpl").Funcs(
+		template.FuncMap{
+			"objectInflection": l.OjectInflection,
+			"singularize":      inflect.Singularize,
+			"inflectJoin": func(elems ...string) (s string) {
+				for i, e := range elems {
+					elems[i] = l.OjectInflection(e)
+				}
+				return strings.Join(elems, ".")
+			},
+			"indent": func(spaces int, s string) string {
+				pad := strings.Repeat(" ", spaces)
+				return pad + strings.Replace(s, "\n", "\n"+pad, -1)
+			},
+		},
+	).ParseFiles(path.Join("templates", "docs.tmpl"))
+	if err != nil {
+		return err
+	}
+	f, err := os.Create(path.Join(dir, "DOCS.md"))
+	if err != nil {
+		return err
+	}
+	return tmpl.Execute(f, s.Components.Schemas)
 }

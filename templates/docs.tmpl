@@ -1,0 +1,80 @@
+# Docs
+
+* [dashboard](#dashboard)
+* [panel](#panel)
+{{- range $name, $schema := .Panel.Properties}}
+  * [{{inflectJoin $name "new"}}](#{{printf "panel%snew" $name}})
+{{- end}}
+* [target](#target)
+{{- range $name, $schema := .Target.Properties}}
+  * [{{inflectJoin $name "new"}}](#{{printf "target%snew" $name}})
+{{- end}}
+* [template](#template)
+{{- range $name, $schema := .Template.Properties}}
+  * [{{inflectJoin $name "new"}}](#{{printf "template%snew" $name}})
+{{- end}}
+
+{{- define "schema"}}
+{{range $name, $schema := .TopLevelSimpleProperties}}
+* **{{objectInflection ($schema.HumanName $name)}}**: (type: {{$schema.Type}}, default: `{{$schema.DefaultJSON}}`)
+{{$schema.Description | indent 2}}
+{{- end}}
+{{range $methodName, $schema := .TopLevelObjectProperties}}
+{{- if gt (len $schema.NestedSimpleProperties) 0}}
+#### #{{objectInflection (printf "set %s" ($schema.HumanName $methodName))}}
+{{range $fs := $schema.NestedSimpleProperties}}
+* **{{objectInflection ($fs.Schema.HumanName $fs.Name)}}**: (type: {{$fs.Schema.Type}}, default: `{{$fs.Schema.DefaultJSON}}`)
+{{$fs.Schema.Description | indent 2}}
+{{- end}}
+{{- end}}
+{{- end}}
+{{range $fs := .NestedComplexArrayProperties}}
+#### #{{singularize (objectInflection (printf "add %s" ($fs.Schema.HumanName $fs.Name)))}}
+{{if eq (len $fs.Schema.Items.Properties) 0}}
+* **{{singularize (objectInflection ($fs.Schema.HumanName $fs.Name))}}**: (type: {{$fs.Schema.Items.Type}})
+{{$fs.Schema.Description | indent 2}}
+{{- else}}
+{{- range $name, $schema := $fs.Schema.Items.Properties}}
+* **{{objectInflection ($schema.HumanName $name)}}**: (type: {{$schema.Type}}, default: `{{$schema.DefaultJSON}}`)
+{{$schema.Description | indent 2}}
+{{- end}}
+{{- end}}
+{{- end}}
+{{end}}
+
+## dashboard
+
+{{.Dashboard.Description}}
+
+### {{inflectJoin "dashboard" "new"}}
+
+Instantiate a dashboard.
+
+{{- template "schema" .Dashboard}}
+
+## panel
+
+{{.Panel.Description}}
+{{range $name, $schema := .Panel.Properties}}
+### {{inflectJoin "panel" $name "new"}}
+{{$schema.Description}}
+{{template "schema" $schema}}
+{{end}}
+
+## target
+
+{{.Target.Description}}
+{{range $name, $schema := .Target.Properties}}
+### {{inflectJoin "target" $name "new"}}
+{{$schema.Description}}
+{{template "schema" $schema}}
+{{end}}
+
+## template
+
+{{.Template.Description}}
+{{range $name, $schema := .Template.Properties}}
+### {{inflectJoin "tamplate" $name "new"}}
+{{$schema.Description}}
+{{template "schema" $schema}}
+{{end}}
