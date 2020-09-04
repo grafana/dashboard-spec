@@ -31,7 +31,7 @@ directories except "Dashboard.yml" and "spec.yml".
 
 If a property's name could be more descriptive in code or it collides with
 another name nested in the same object, use the `title` field to indicate what
-that object should be called in code. For example, most panels have a top-level
+that object should be called in code. For example, some panels have a top-level
 array called `links` and also a nested array called `links`. The top-level array
 is referring to [panel
 links](https://grafana.com/docs/grafana/latest/linking/panel-links/) while the
@@ -40,7 +40,7 @@ links](https://grafana.com/docs/grafana/latest/linking/data-links/), therefore,
 the properties have `title` set to "Panel Link" and "Data Link". The code
 generator should use this field instead for deciding method names. Depending on
 what the language has set for its object inflection property, this will result
-in methods like, `addPanelLinks()` and `addDataLinks()`.
+in methods like, `addPanelLink()` and `addDataLink()`.
 
 ### [templates/](./templates)
 
@@ -49,8 +49,9 @@ they contain templates for.
 
 Each language must implement the following templates:
 
-* `main.tmpl`: this is the main library file. It's intended that this file be
-  imported when implementing the generated code.
+* `main.tmpl`: this is intended to be the "entrypoint" for the generated code.
+  It should import all other files or do whatever is necessary to tie everything
+  together.
 * `dashboard.tmpl`: for generating the dashboard object and file.
 * `panel.tmpl`: for generating panel objects and files.
 * `target.tmpl`: for generating target objects and files.
@@ -58,14 +59,16 @@ Each language must implement the following templates:
 * `_shared.tmpl`: shared template file available to all other templates. This is
   useful for defining reusable template code for others to share.
 
+[`templates/docs.tmpl`](./templates/docs.tmpl) is an exception because it is
+language agnostic. All languages use this template for documentation generation.
+
 #### Style Guide for Templates
 
 Object arrays should have "appender" methods. For example `addLink()` and
 `addTarget()`.
 
 Objects nested one level should have "setter" methods with all simple fields as
-arguments. For example, `setGridPos()` and `setLegend()`. "Simple" fields are
-everything that's not an object array.
+arguments. For example, `setGridPos()` and `setLegend()`.
 
 If fields need special processing, set them as `readOnly` and implement static
 methods for setting them. For example if you need to add an incrementing `id`
