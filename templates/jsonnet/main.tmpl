@@ -1,3 +1,5 @@
+{{template "comment" .}}
+
 {
   dashboard:: import 'dashboard.libsonnet',
   panel:: { {{- range $name, $schema := .Panel.Properties}}
