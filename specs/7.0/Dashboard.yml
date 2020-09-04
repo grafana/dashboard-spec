@@ -4,9 +4,13 @@ Dashboard:
     - title
   properties:
     annotations:
-      type: array
-      items:
-        $ref: '#/annotation'
+      type: object
+      properties:
+        list:
+          title: Annotation
+          type: array
+          items:
+            $ref: '#/annotation'
     description:
       type: string
     editable:
