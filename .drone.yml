@@ -25,8 +25,8 @@ steps:
   environment:
     DEPLOY_KEY:
       from_secret: github_deploy_key
-    GIT_COMMITTER_EMAIL: 69285523+bottbottbott@users.noreply.github.com
-    GIT_COMMITTER_NAME: bottbottbott
+    GIT_COMMITTER_EMAIL: bot@grafana.com
+    GIT_COMMITTER_NAME: grafanabot
   commands:
   - git add -f .
   - git commit -m '[drone] bundled specs and generated libraries'
