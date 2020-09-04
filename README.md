@@ -88,18 +88,18 @@ go run . 7.0 jsonnet
 
 This will produce the generated files in `_gen/7.0/jsonnet/`. Generated files
 are updated and committed to the
-[\_gen](https://github.com/trotttrotttrott/dashboard-spec/tree/_gen) branch
+[\_gen](https://github.com/grafana/dashboard-spec/tree/_gen) branch
 after every commit to master. See the [Generated Code](#generated-code) section
 for direct links.
 
 ## Generated Code
 
-The generated code lives in this repository's [\_gen](https://github.com/trotttrotttrott/dashboard-spec/tree/_gen) branch.
+The generated code lives in this repository's [\_gen](https://github.com/grafana/dashboard-spec/tree/_gen) branch.
 
 ### Spec Documents
 
-* [7.0/spec.json](https://github.com/trotttrotttrott/dashboard-spec/blob/_gen/_gen/7.0/spec.json)
+* [7.0/spec.json](https://github.com/grafana/dashboard-spec/blob/_gen/_gen/7.0/spec.json)
 
 ### Libraries
 
-* [7.0/jsonnet](https://github.com/trotttrotttrott/dashboard-spec/tree/_gen/_gen/7.0/jsonnet)
+* [7.0/jsonnet](https://github.com/grafana/dashboard-spec/tree/_gen/_gen/7.0/jsonnet)
