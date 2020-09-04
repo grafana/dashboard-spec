@@ -1,4 +1,4 @@
-module github.com/trotttrotttrott/dashboard-spec
+module github.com/grafana/dashboard-spec
 
 go 1.14
 
