@@ -1,0 +1,24 @@
+thresholds:
+  type: array
+  items:
+    type: object
+    properties:
+      colorMode:
+        title: Threshold Color
+        type: string
+        default: critical
+      fill:
+        title: Fill
+        type: boolean
+        default: true
+      line:
+        title: Line
+        type: boolean
+        default: true
+      op:
+        title: Operator
+        type: string
+        default: gt
+      value:
+        title: value
+        type: number

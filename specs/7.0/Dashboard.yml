@@ -28,7 +28,7 @@ Dashboard:
         type: object
       readOnly: true
     refresh:
-      type: string
+      type: boolean
     schemaVersion:
       type: integer
       default: 25
