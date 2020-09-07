@@ -1,0 +1,105 @@
+{{- define "topLevelSimpleProperties"}}
+  {{- $spec := index . 0}}
+  {{- $instance := index . 1}}
+  {{- range $name, $schema := $spec.TopLevelSimpleNonDefaultProperties $instance}}
+    {{- $value := toString (index $instance $name) $schema.Type $name}}
+    {{ $name }} = {{ $value }},
+  {{- end}}
+{{- end}}
+
+{{- define "readOnlyWithDefaultProperties"}}
+    {{- range $fs := .ReadOnlyWithDefaultProperties}}
+    {{range $i, $level := $fs.Location -}}
+    {{if eq (add 1 $i) (len $fs.Location)}}{{$level}}: {{$fs.Schema.DefaultJSON}}{{repeat " }" (subtract (len $fs.Location) 1)}}{{else}}{{$level}}+: { {{end}}{{end}},
+    {{- end}}
+{{- end}}
+
+{{- define "topLevelObjectProperties"}}
+    {{- $spec := index . 0}}
+    {{- $instance := index . 1}}
+    {{- $objectName := index . 2}}
+    {{- range $topName, $schema := $spec.TopLevelObjectProperties}}
+    {{- $topValue := index $instance $topName}}
+    {{- debugx "TOP NAME" $topName}}
+    {{- debugx "TOP VALUE" $topValue}}
+    {{- if eq (len ($schema.NestedSimpleNonDefaultProperties $topValue)) 1}}
+  .{{objectInflection (printf "set %s" ($schema.HumanName $topName))}}(
+      {{- range $fs := $schema.NestedSimpleNonDefaultProperties $topValue}}
+      {{- $value := index $topValue $fs.Name }}
+      {{- if not ($fs.Schema.IsDefault $value $fs.Name)}}
+      {{- objectInflection ($fs.Schema.HumanName $fs.Name)}}={{toString $value $fs.Schema.Type $fs.Name -}}
+      {{- end}}
+      {{- end -}}
+    )
+    {{- else if gt (len ($schema.NestedSimpleNonDefaultProperties $topValue)) 1}}
+  .{{objectInflection (printf "set %s" ($schema.HumanName $topName))}}(
+      {{- range $fs := $schema.NestedSimpleNonDefaultProperties $topValue}}
+      {{- $value := index $topValue $fs.Name }}
+      {{- if not ($fs.Schema.IsDefault $value $fs.Name)}}
+      {{objectInflection ($fs.Schema.HumanName $fs.Name)}}={{toString $value $fs.Schema.Type $fs.Name}},
+      {{- end}}
+      {{- end}}
+    )
+    {{- end}}
+    {{- end}}
+{{- end}}
+
+{{- define "topLevelArrayProperties"}}
+    {{- $spec := index . 0}}
+    {{- $instance := index . 1}}
+    {{- $objectName := index . 2}}
+    {{- range $topName, $schema := $spec.TopLevelArrayProperties}}
+    {{- if ne $topName "annotations" }}
+    {{- debugx "TOP NAME" $topName}}
+    {{- $topValue := (index $instance $topName)}}
+    {{- debugx "TOP VALUE" $topValue}}
+    {{- debugx "ARRAY TOP VALUE" $topValue }}
+    {{- if gt (len $topValue) 0 }} 
+  .{{objectInflection (printf "add %s" ($schema.HumanName $topName))}}([
+     {{- range $item := $topValue }}
+       {{- debugx "ARRAY ITEM" $item }}
+      {{- range $fs := $schema.NestedSimpleNonDefaultProperties $item}}
+      {{- $value := index $topValue $fs.Name }}
+      {{- if not ($fs.Schema.IsDefault $value $fs.Name)}}
+      {{objectInflection ($fs.Schema.HumanName $fs.Name)}}={{toString $value $fs.Schema.Type $fs.Name}},
+      {{- end}}
+      {{- end}}
+    {{- end}}
+  ])
+    {{- end}}
+    {{- end}}
+    {{- end}}
+{{- end}}
+
+  .addAnnotation(
+    {{- debugx "ANNOTATIONS" .spec.Dashboard.TopLevelArrayProperties.annotations.Items}}
+    {{- template "topLevelSimpleProperties" (wrap .spec.Dashboard.TopLevelArrayProperties.annotations.Items (index .instance.annotations.list 0))}}
+  )
+
+{{- define "nestedComplexArrayProperties"}}
+    {{range $fs := .NestedComplexArrayProperties}}
+    {{singularize (objectInflection (printf "add %s" ($fs.Schema.HumanName $fs.Name)))}}(
+      {{- if eq (len $fs.Schema.Items.Properties) 0}}
+      {{singularize (objectInflection ($fs.Schema.HumanName $fs.Name))}}
+      {{- else}}
+      {{- range $name, $schema := $fs.Schema.Items.Properties}}
+      {{objectInflection ($schema.HumanName $name)}}={{$schema.DefaultJSON}},
+      {{- end}}
+      {{- end}}
+    ):: self {}
+      + {{range $i, $level := $fs.Location -}}
+      { {{$level}}+: {{if eq (add 1 $i) (len $fs.Location)}}[
+        {{- if eq (len $fs.Schema.Items.Properties) 0}}
+        {{singularize (objectInflection ($fs.Schema.HumanName $fs.Name))}}
+        {{- else}}
+        {
+          {{- range $name, $schema := $fs.Schema.Items.Properties}}
+          [if {{objectInflection ($schema.HumanName $name)}} != null then '{{$name}}']: {{objectInflection ($schema.HumanName $name)}},
+          {{- end}}
+        },
+        {{- end}}
+      ]{{repeat " }" (len $fs.Location) -}}
+      {{- end}}
+      {{- end}},
+    {{end}}
+{{- end}}
