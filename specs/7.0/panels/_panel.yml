@@ -15,6 +15,10 @@ panel:
       type: array
       items:
         $ref: '_link.yml#/link'
+    repeat:
+      type: string
+    repeatDirection:
+      type: string
     targets:
       type: array
       items:
