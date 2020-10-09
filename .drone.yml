@@ -49,5 +49,9 @@ steps:
   - git push -f git@github.com:grafana/dashboard-spec HEAD:grafonnet-spec
 
 trigger:
+  event:
+  - push
   branch:
   - master
+  repo:
+  - grafana/dashboard-spec
