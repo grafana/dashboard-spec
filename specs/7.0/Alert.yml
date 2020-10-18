@@ -1,0 +1,71 @@
+alert:
+  type: object
+  required:
+    - for
+  properties:
+    alertRuleTags:
+      type: object
+    conditions:
+      $ref: '#/conditions'
+    executionErrorState:
+      type: string
+      default: alerting
+    for:
+      type: string
+      default: 10m
+    frequency:
+      type: string
+      default: 1m
+    handler:
+      type: integer
+    message:
+      type: string
+    name:
+      type: string
+    noDataState:
+      type: string
+      default: no_data
+    notifications:
+      type: array
+      items:
+        properties:
+          uid:
+            type: string
+
+conditions:
+  type: object
+  properties:
+    evaluator:
+      type: object
+      properties:
+        params:
+          type: array
+          items:
+            type: integer
+        type:
+          type: string
+          default: lt
+    operator:
+      type: object
+      properties:
+        type:
+          type: string
+          default: and
+    query:
+      type: object
+      properties:
+        params:
+          type: array
+          items:
+            type: string
+    reducer:
+      type: object
+      properties:
+        params:
+          type: array
+        type:
+          type: string
+          default: last
+    type:
+      type: string
+      default: query
