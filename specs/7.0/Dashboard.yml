@@ -101,6 +101,9 @@ annotation:
 timepicker:
   type: object
   properties:
+    hidden:
+      type: boolean
+      default: false
     refresh_intervals:
       type: array
       items:
