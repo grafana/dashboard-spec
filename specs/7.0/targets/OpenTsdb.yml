@@ -1,0 +1,53 @@
+OpenTsdb:
+  type: object
+  required:
+    - metric
+  properties:
+    metric:
+      type: string
+    aggregator:
+      type: string
+      default: sum
+    alias:
+      type: string
+
+    downsampleInterval:
+      type: string
+    downsampleAggregator:
+      type: string
+      default: avg
+    downsampleFillPolicy:
+      type: string
+    disableDownsampling:
+      type: boolean
+
+    filters:
+      type: array
+      items:
+        type: object
+
+    shouldComputeRate:
+      type: boolean
+    isCounter:
+      type: boolean
+    counterMax:
+      type: string
+    counterResetValue:
+      type: string
+    explicitTags:
+      type: boolean
+    shouldComputeDelta:
+      type: boolean
+
+    shouldComputeTopK:
+      type: boolean
+    topKType:
+      type: string
+    topKValue:
+      type: string
+    topKOption:
+      type: string
+
+    refId:
+      type: string
+      readOnly: true
