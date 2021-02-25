@@ -28,6 +28,8 @@ components:
     Target:
       type: object
       properties:
+        OpenTsdb:
+          $ref: 'targets/OpenTsdb.yml#/OpenTsdb'
         Prometheus:
           $ref: 'targets/Prometheus.yml#/Prometheus'
     Template:
