@@ -350,6 +350,3 @@ transformations:
     the ability to reuse the query result from one panel in another panel can be a huge performance gain.
   items:
     type: object
-    properties:
-      id: string
-      options: object
