@@ -1,0 +1,42 @@
+Custom:
+  type: object
+  properties:
+    allValue:
+      type: string
+    current:
+      type: object
+      properties:
+        selected:
+          type: boolean
+          default: false
+        text:
+          type: string
+        value:
+          type: string
+    hide:
+      type: integer
+      default: 0
+    includeAll:
+      type: boolean
+      default: false
+    label:
+      type: string
+    multi:
+      type: boolean
+      default: false
+    name:
+      type: string
+    options:
+      type: array
+    query:
+      type: string
+    queryValue:
+      type: string
+      default: ""
+    skipUrlSync:
+      type: string
+      default: false
+    type:
+      type: string
+      default: 'custom'
+      readOnly: true

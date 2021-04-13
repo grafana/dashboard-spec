@@ -74,7 +74,7 @@ Instantiate a dashboard.
 
 {{.Template.Description}}
 {{range $name, $schema := .Template.Properties}}
-### {{inflectJoin "tamplate" $name "new"}}
+### {{inflectJoin "template" $name "new"}}
 {{$schema.Description}}
 {{template "schema" $schema}}
 {{end}}

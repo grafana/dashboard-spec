@@ -17,6 +17,8 @@ Prometheus:
       type: string
     intervalFactor:
       type: integer
+    instant:
+      type: boolean
     refId:
       type: string
       readOnly: true

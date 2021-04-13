@@ -38,10 +38,8 @@ defaults:
         $ref: '_mapping.yml#/mapping'
     max:
       type: integer
-      default: 0
     min:
       type: integer
-      default: 0
     noValue:
       type: string
     thresholds:

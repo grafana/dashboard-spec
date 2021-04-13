@@ -38,16 +38,6 @@ steps:
   - ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts 2> /dev/null
   - git push -f git@github.com:grafana/dashboard-spec HEAD:_gen
 
-  # Hack for POC using the generated Jsonnet code along with jsonnet-bundler.
-  # Idea being you could run the following to have it symlinked as
-  # vendor/grafonnet-spec:
-  #
-  # jb install https://github.com/grafana/dashboard-spec/_gen/7.0/grafonnet-spec@grafonnet-spec
-  - mv _gen/7.0/jsonnet _gen/7.0/grafonnet-spec
-  - git add -f .
-  - git commit --amend --no-edit
-  - git push -f git@github.com:grafana/dashboard-spec HEAD:grafonnet-spec
-
 trigger:
   event:
   - push

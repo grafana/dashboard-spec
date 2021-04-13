@@ -33,6 +33,8 @@ components:
     Template:
       type: object
       properties:
+        Custom:
+          $ref: 'templates/Custom.yml#/Custom'
         Datasource:
           $ref: 'templates/Datasource.yml#/Datasource'
         Query:
