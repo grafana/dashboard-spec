@@ -12,7 +12,7 @@ Gauge:
         type:
           type: string
           default: 'gauge'
-          readOnly: true        
+          readOnly: true
 
 defaults:
   type: object
