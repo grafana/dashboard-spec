@@ -2,7 +2,7 @@ override:
   type: object
   properties:
     matcher:
-      type: oject
+      type: object
       properties:
         id:
           type: string

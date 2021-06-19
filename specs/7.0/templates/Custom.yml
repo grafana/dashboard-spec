@@ -28,6 +28,8 @@ Custom:
       type: string
     options:
       type: array
+      items:
+        type: object
     query:
       type: string
     queryValue:

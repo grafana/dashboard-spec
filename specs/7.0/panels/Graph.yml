@@ -99,6 +99,8 @@ Graph:
           type: string
         timeRegions:
           type: array
+          items:
+            type: object
         timeShift:
           type: string
         tooltip:
@@ -164,6 +166,8 @@ Graph:
               description: Show or hide the axis.
             values:
               type: array
+              items:
+                type: string
               default: []
         yaxes:
           type: array
