@@ -220,6 +220,12 @@ defaults:
     custom:
       type: object
       default: {}
+    max:
+      type: integer
+    min:
+      type: integer
+    unit:
+      type: string
 
 fieldConfig:
   type: object
