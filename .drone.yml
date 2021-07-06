@@ -1,9 +1,9 @@
+---
 kind: pipeline
 type: docker
 name: generate
 
 steps:
-
 - name: bundle
   image: trotttrotttrott/swagger-cli:4.0.4
   commands:
@@ -45,3 +45,8 @@ trigger:
   - master
   repo:
   - grafana/dashboard-spec
+---
+kind: signature
+hmac: 8f849e265cb2d11738c6b032d0b2c7c4769f995e26d7c49eb3dc219e1ac06252
+
+...

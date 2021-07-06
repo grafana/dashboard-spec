@@ -11,4 +11,8 @@ bundle: validate
 		--outfile _gen/${SPEC_VERSION}/spec.json \
 		specs/${SPEC_VERSION}/spec.yml
 
-.PHONY: validate bundle
+drone:
+	drone lint
+	drone --server https://drone.grafana.net sign --save grafana/dashboard-spec
+
+.PHONY: validate bundle drone
