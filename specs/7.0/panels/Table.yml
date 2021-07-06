@@ -41,7 +41,7 @@ defaults:
     noValue:
       type: string
     thresholds:
-      $ref: '_threshold.yml#/threshold'
+      $ref: '_thresholds.yml#/thresholds'
     unit:
       type: string
       default: short

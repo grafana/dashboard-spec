@@ -94,7 +94,7 @@ Graph:
           default: false
           description: Draws adjacent points as staircase.
         thresholds:
-          $ref: '_threshold.yml#/threshold'
+          $ref: '_thresholds.yml#/thresholds'
         timeFrom:
           type: string
         timeRegions:

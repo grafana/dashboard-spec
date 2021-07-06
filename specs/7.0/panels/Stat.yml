@@ -32,7 +32,7 @@ defaults:
     min:
       type: integer
     thresholds:
-      $ref: '_threshold.yml#/threshold'
+      $ref: '_thresholds.yml#/thresholds'
     unit:
       type: string
 
