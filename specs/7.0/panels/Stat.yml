@@ -35,6 +35,8 @@ defaults:
       $ref: '_threshold.yml#/threshold'
     unit:
       type: string
+    decimals:
+      type: integer
 
 fieldConfig:
   type: object
@@ -78,4 +80,3 @@ options:
     textMode:
       type: string
       default: auto
-
