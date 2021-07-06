@@ -95,6 +95,8 @@ Graph:
           description: Draws adjacent points as staircase.
         thresholds:
           $ref: '_threshold.yml#/threshold'
+        transformations:
+          $ref: '#/transformations'
         timeFrom:
           type: string
         timeRegions:
@@ -338,3 +340,8 @@ seriesOverrides:
         type: boolean
       hideTooltip:
         type: boolean
+
+transformations:
+  type: array
+  items:
+    $ref: '_transformation.yml#/transformation'

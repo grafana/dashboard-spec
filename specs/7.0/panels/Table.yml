@@ -7,6 +7,8 @@ Table:
           $ref: '#/fieldConfig'
         options:
           $ref: '#/options'
+        transformations:
+          $ref: '#/transformations'
         type:
           type: string
           default: 'table'
@@ -62,3 +64,8 @@ options:
     showHeader:
       type: boolean
       default: true
+
+transformations:
+  type: array
+  items:
+    $ref: '_transformation.yml#/transformation'

@@ -7,6 +7,8 @@ Stat:
           $ref: '#/fieldConfig'
         options:
           $ref: '#/options'
+        transformations:
+          $ref: '#/transformations'
         type:
           type: string
           default: 'stat'
@@ -79,3 +81,7 @@ options:
       type: string
       default: auto
 
+transformations:
+  type: array
+  items:
+    $ref: '_transformation.yml#/transformation'
