@@ -24,6 +24,9 @@ type Language struct {
 }
 
 func main() {
+	// change the flags on the default logger
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+
 	args := os.Args[1:]
 	specVersion, language := args[0], args[1]
 	err := generate(
