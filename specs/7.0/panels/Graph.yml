@@ -245,6 +245,14 @@ legend:
       type: boolean
       default: false
       description: Last value returned from the metric query.
+    hideEmpty:
+      type: boolean
+      default: false
+      description: Hide series with only null values
+    hideZero:
+      type: boolean
+      default: false
+      description: Hide series with only zero values
     max:
       type: boolean
       default: false
