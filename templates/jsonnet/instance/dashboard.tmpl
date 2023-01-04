@@ -1,0 +1,32 @@
+local grafana = import '_gen/7.0/jsonnet/grafana.libsonnet';
+local dashboard = grafana.dashboard;
+local panel = grafana.panel;
+local target = grafana.target;
+local template = grafana.template;
+
+{
+  {{ $spec := .spec }}
+  {{- range $panel := .instance.panels }}
+    {{- $panelType := $panel.type }}
+    {{- $panelSchema := index $spec.Panel.Properties (toCamel $panelType)}}
+  {{ toKey $panel.title }}:: panel.{{$panelType}}.new(
+    {{- template "topLevelSimpleProperties" (wrap $panelSchema $panel)}}
+  )
+  {{- template "topLevelObjectProperties" (wrap $panelSchema $panel (printf "panel.%s" $panelType))}}
+  ,
+  {{end}}
+  dashboard: dashboard.new(
+    {{- template "topLevelSimpleProperties" (wrap .spec.Dashboard .instance)}}
+  )
+  {{- template "topLevelObjectProperties" (wrap .spec.Dashboard .instance "dashboard")}}
+  {{- template "topLevelArrayProperties" (wrap .spec.Dashboard .instance "dashboard")}}
+  .addAnnotation(
+    {{- template "topLevelSimpleProperties" (wrap .spec.Dashboard.TopLevelArrayProperties.annotations.Items (index .instance.annotations.list 0))}}
+  )
+  .addPanels([
+  {{- range $panel := .instance.panels }}
+      $.{{ toKey $panel.title }},
+  {{- end}}
+  ])
+  ,
+}

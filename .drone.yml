@@ -12,7 +12,7 @@ steps:
 - name: generate
   image: golang:1.14.6-alpine3.12
   commands:
-  - go run . 7.0 jsonnet
+  - go run . library 7.0 jsonnet
 
 - name: jsonnet fmt
   image: bitnami/jsonnet:0.16.0
