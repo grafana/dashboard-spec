@@ -1,5 +1,3 @@
-# Grafana Dashboard Spec
-
 > **DEPRECATED**: Note, this repo is no-longer under active development. Whilst
 it was used to render Grafonnet's library for Grafana 7.0, future schema work is
 happening inside Grafana itself, version 7.0, the code in this repo has been
@@ -7,6 +5,8 @@ replaced by new effort directly within Grafana itself.
 
 **THIS REPOSITORY IS NOT BEING MAINTAINED. A SCHEMA IS NOW BEING BUILT DIRECTLY
 INTO GRAFANA ITSELF.**
+
+# Grafana Dashboard Spec
 
 Schema description documents for [Grafana Dashboard
 JSON](https://grafana.com/docs/grafana/latest/reference/dashboard/) and core
