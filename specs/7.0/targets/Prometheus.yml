@@ -5,7 +5,6 @@ Prometheus:
   properties:
     datasource:
       type: string
-      default: default
     expr:
       type: string
     format:
