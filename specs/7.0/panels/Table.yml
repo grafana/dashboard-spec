@@ -62,3 +62,13 @@ options:
     showHeader:
       type: boolean
       default: true
+    sortBy:
+      type: array
+      items:
+        type: object
+        properties:
+          desc:
+            type: boolean
+            default: true
+          displayName:
+            type: string
